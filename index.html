@@ -1,1986 +1,799 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<title>
-mikuumi | Digital Space
-</title>
-
-
+<title>mikuumi | 数字空间</title>
 <style>
-
-
-/* ===== 鍩虹 ===== */
-
-*{
-
-margin:0;
-padding:0;
-box-sizing:border-box;
-
+/* ===== Reset & Base ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background: #050510;
+  color: #fff;
+  font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+  overflow-x: hidden;
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+body.loaded {
+  opacity: 1;
 }
 
-
-.contact-list{
-	display:flex;
-	flex-direction:column;
-	gap:14px;
-}
-.contact-item{
-	display:flex;
-	align-items:center;
-	gap:14px;
-}
-.contact-item a{ text-decoration:none; display:inline-flex; align-items:center; gap:10px }
-.contact-item a.icon svg{ width:28px; height:28px; color:#6ee7ff; fill:currentColor; transition:transform .15s ease }
-.contact-item a.icon:hover svg{ transform:scale(1.08) }
-.contact-item .link{ font-weight:600 }
-html{
-
-scroll-behavior:smooth;
-
+/* ===== Stars Canvas ===== */
+#stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
 }
 
-
-
-body{
-
-background:#050510;
-
-color:white;
-
-font-family:
-
-"Segoe UI",
-"Microsoft YaHei",
-sans-serif;
-
-
-overflow-x:hidden;
-
-
+/* ===== Mouse Glow ===== */
+.cursor-glow {
+  position: fixed;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(110,231,255,.12), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  transition: left .08s ease, top .08s ease;
 }
 
-
-
-/* ===== 鏄熺┖鑳屾櫙 ===== */
-
-
-#stars{
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-width:100%;
-
-height:100%;
-
-z-index:-3;
-
-
+/* ===== Navigation ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 6%;
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 20;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #6ee7ff, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-links {
+  display: flex;
+  gap: 8px;
+}
+nav a {
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  padding: 6px 14px;
+  font-size: 14px;
+  border-radius: 20px;
+  transition: all .3s;
+}
+nav a:hover {
+  color: #6ee7ff;
+  background: rgba(110,231,255,.08);
 }
 
-
-
-
-/* 榧犳爣鍏夋晥 */
-
-
-.cursor{
-
-position:fixed;
-
-width:350px;
-
-height:350px;
-
-
-border-radius:50%;
-
-
-background:
-
-radial-gradient(
-
-circle,
-
-rgba(110,231,255,.18),
-
-transparent 70%
-
-);
-
-
-
-pointer-events:none;
-
-
-z-index:-1;
-
-
+/* ===== Hero Section ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 6% 60px;
+}
+.hero-inner {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  max-width: 960px;
+  width: 100%;
 }
 
-
-
-/* ===== 瀵艰埅 ===== */
-
-
-nav{
-
-
-position:fixed;
-
-
-top:0;
-
-
-left:0;
-
-
-width:100%;
-
-
-height:80px;
-
-
-
-display:flex;
-
-
-justify-content:space-between;
-
-
-align-items:center;
-
-
-
-padding:0 8%;
-
-
-
-background:
-
-rgba(0,0,0,.35);
-
-
-
-backdrop-filter:
-
-blur(20px);
-
-
-
-z-index:20;
-
-
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 160px;
+  height: 160px;
+  animation: float 5s ease-in-out infinite;
+}
+.avatar-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6ee7ff, #c084fc, #6ee7ff);
+  background-size: 300% 300%;
+  animation: ringSpin 4s linear infinite;
+  z-index: -1;
+}
+.avatar-ring::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: #050510;
+}
+.avatar-svg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
 }
 
-
-
-
-.logo{
-
-
-font-size:28px;
-
-
-font-weight:700;
-
-
-color:#6ee7ff;
-
-
+@keyframes ringSpin {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
 }
 
-
-
-nav a{
-
-
-color:white;
-
-
-text-decoration:none;
-
-
-margin-left:30px;
-
-
-opacity:.8;
-
-
-transition:.3s;
-
-
+.hero-text {
+  flex: 1;
+  text-align: left;
+}
+.hero h1 {
+  font-size: clamp(40px, 7vw, 64px);
+  background: linear-gradient(90deg, #6ee7ff, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.hero-tag {
+  padding: 5px 16px;
+  border-radius: 20px;
+  background: rgba(110,231,255,.08);
+  border: 1px solid rgba(110,231,255,.15);
+  color: rgba(255,255,255,.7);
+  font-size: 14px;
+  transition: all .3s;
+}
+.hero-tag:hover {
+  background: rgba(110,231,255,.15);
+  border-color: rgba(110,231,255,.3);
+  color: #6ee7ff;
+}
+.hero-desc {
+  margin-top: 18px;
+  color: rgba(255,255,255,.55);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 480px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  padding: 12px 32px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, #6ee7ff, #c084fc);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all .3s ease;
+  box-shadow: 0 0 20px rgba(110,231,255,.2);
+}
+.btn-primary:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 0 36px rgba(110,231,255,.35);
+}
+.btn-primary svg {
+  width: 16px;
+  height: 16px;
 }
 
-
-
-nav a:hover{
-
-
-color:#6ee7ff;
-
-
+/* ===== Sections ===== */
+section {
+  padding: 70px 8%;
+}
+.section-title {
+  font-size: clamp(26px, 4vw, 36px);
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: 700;
+}
+.section-title::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #6ee7ff, #c084fc);
+  margin: 12px auto 0;
+  border-radius: 4px;
 }
 
-
-
-
-
-/* ===== 棣栭〉 ===== */
-
-
-.hero{
-
-
-height:100vh;
-
-
-display:flex;
-
-
-justify-content:center;
-
-
-align-items:center;
-
-
-text-align:center;
-
-
+/* ===== Cards Grid ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all .35s cubic-bezier(.15,.75,.35,1);
+}
+.card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(110,231,255,.25);
+  box-shadow: 0 16px 40px rgba(110,231,255,.12);
+}
+.card h2 {
+  color: #6ee7ff;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+.card p {
+  line-height: 1.8;
+  color: rgba(255,255,255,.75);
+  font-size: 14px;
 }
 
-
-
-
-
-.avatar{
-
-
-width:426px;
-
-
-height:426px;
-
-
-object-fit:cover;
-
-
-border-radius:50%;
-
-
-
-border:
-
-5px solid rgba(110,231,255,.8);
-
-
-
-box-shadow:
-
-
-0 0 40px #6ee7ff,
-
-
-0 0 120px rgba(110,231,255,.4);
-
-
-
-animation:
-
-float 5s ease-in-out infinite;
-
-
-
+/* ===== About Section ===== */
+.about-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.about-bio {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 16px;
+  padding: 28px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  line-height: 1.8;
+  color: rgba(255,255,255,.78);
+  font-size: 15px;
+}
+.about-bio b {
+  color: #6ee7ff;
+}
+.about-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  font-size: 14px;
+  color: rgba(255,255,255,.8);
+  transition: all .3s;
+}
+.about-badge:hover {
+  background: rgba(110,231,255,.08);
+  border-color: rgba(110,231,255,.2);
+  transform: translateY(-2px);
+}
+.about-badge .badge-icon {
+  font-size: 18px;
+}
+.about-badge .badge-label {
+  color: rgba(255,255,255,.5);
+  font-size: 12px;
+}
+.about-badge .badge-value {
+  font-weight: 600;
+  color: #6ee7ff;
 }
 
-
-
-@keyframes float{
-
-
-50%{
-
-
-transform:
-
-translateY(-25px);
-
-
+/* ===== Skill Bars ===== */
+.skill {
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.skill-name {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(255,255,255,.85);
+}
+.bar {
+  height: 6px;
+  background: rgba(255,255,255,.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #6ee7ff, #c084fc);
+  width: 0;
+  transition: width 1.2s cubic-bezier(.15,.75,.35,1);
 }
 
-
-
+/* ===== Contact Section ===== */
+.contact-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.contact-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  color: #fff;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all .35s cubic-bezier(.15,.75,.35,1);
+  position: relative;
+  cursor: pointer;
+}
+.contact-btn svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+  transition: transform .35s ease;
+}
+.contact-btn:hover svg {
+  transform: scale(1.2);
 }
 
-
-
-
-.hero h1{
-
-
-font-size:75px;
-
-
-margin-top:35px;
-
-
-
-background:
-
-
-linear-gradient(
-
-90deg,
-
-#6ee7ff,
-
-#c084fc
-
-);
-
-
-
--webkit-background-clip:text;
-
-
-
-color:transparent;
-
-
-
+.contact-btn.github:hover {
+  border-color: rgba(255,255,255,.3);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(255,255,255,.08);
+}
+.contact-btn.x:hover {
+  border-color: rgba(110,231,255,.35);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(110,231,255,.1);
+}
+.contact-btn.gmail:hover {
+  border-color: rgba(234,67,53,.35);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(234,67,53,.1);
 }
 
-
-
-
-.hero p{
-
-
-font-size:24px;
-
-
-margin-top:20px;
-
-
-color:#aaa;
-
-
-
+.contact-message {
+  text-align: center;
+  margin-top: 28px;
+  color: rgba(255,255,255,.55);
+  font-size: 14px;
+  line-height: 1.8;
 }
 
-
-
-
-.button{
-
-
-display:inline-block;
-
-
-margin-top:40px;
-
-
-padding:
-
-15px 40px;
-
-
-
-border-radius:50px;
-
-
-
-background:
-
-
-linear-gradient(
-
-90deg,
-
-#6ee7ff,
-
-#c084fc
-
-);
-
-
-
-text-decoration:none;
-
-
-color:white;
-
-
-transition:.3s;
-
-
-
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 40px 5% 32px;
+  color: rgba(255,255,255,.35);
+  font-size: 13px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+footer span {
+  display: inline-block;
+  margin: 3px 0;
 }
 
-
-
-.button:hover{
-
-
-transform:
-
-scale(1.1);
-
-
-box-shadow:
-
-0 0 40px #6ee7ff;
-
-
+/* ===== Scroll Animations ===== */
+.hidden {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all .7s cubic-bezier(.15,.75,.35,1);
+}
+.show {
+  opacity: 1;
+  transform: none;
 }
 
-
-
-
-/* ===== 閫氱敤鍖哄煙 ===== */
-
-
-section{
-
-
-padding:
-
-120px 10%;
-
-
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  nav {
+    height: 56px;
+    padding: 0 5%;
+  }
+  .logo { font-size: 20px; }
+  .nav-links { gap: 4px; }
+  nav a {
+    padding: 4px 10px;
+    font-size: 13px;
+  }
+  .hero {
+    min-height: 100vh;
+    padding: 70px 5% 40px;
+  }
+  .hero-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+  }
+  .avatar-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+  .hero-text {
+    text-align: center;
+  }
+  .hero-tags {
+    justify-content: center;
+  }
+  .hero-desc {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  section {
+    padding: 50px 5%;
+  }
+  .section-title {
+    margin-bottom: 28px;
+  }
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .card {
+    padding: 20px;
+  }
+  .about-info {
+    justify-content: center;
+  }
+  .about-badge {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+  .contact-grid {
+    gap: 16px;
+  }
+  .contact-btn {
+    width: 52px;
+    height: 52px;
+  }
+  .contact-btn svg {
+    width: 22px;
+    height: 22px;
+  }
 }
 
-
-
-.title{
-
-
-font-size:45px;
-
-
-text-align:center;
-
-
-margin-bottom:60px;
-
-
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: clamp(32px, 12vw, 44px);
+  }
+  .hero-tag {
+    font-size: 12px;
+    padding: 4px 12px;
+  }
+  .about-badge {
+    flex: 1 1 calc(50% - 6px);
+    justify-content: center;
+  }
 }
-
-
-
-
-.card{
-
-
-background:
-
-
-rgba(255,255,255,.07);
-
-
-
-border:
-
-
-1px solid rgba(255,255,255,.15);
-
-
-
-border-radius:25px;
-
-
-
-padding:35px;
-
-
-
-backdrop-filter:
-
-blur(20px);
-
-
-
-transition:.4s;
-
-
-
-}
-
-
-
-
-.card:hover{
-
-
-transform:
-
-translateY(-15px);
-
-
-
-box-shadow:
-
-
-0 20px 60px
-
-rgba(110,231,255,.25);
-
-
-
-}
-
-
-
-
-.cards{
-
-
-display:grid;
-
-
-grid-template-columns:
-
-
-repeat(
-
-auto-fit,
-
-minmax(260px,1fr)
-
-);
-
-
-
-gap:30px;
-
-
-
-}
-
-
-
-
-
-.card h2{
-
-
-color:#6ee7ff;
-
-
-margin-bottom:20px;
-
-
-}
-
-
-
-
-
-.card p{
-
-
-line-height:2;
-
-
-color:#ddd;
-
-
-}
-
-
-
-
-
-/* ===== 鎶€鑳芥潯 ===== */
-
-
-
-
-
-#c084fc
-
-);
-
-
-
-animation:
-
-load 2s;
-
-
-
-}
-
-
-
-@keyframes load{
-
-
-from{
-
-
-width:0;
-
-
-}
-
-
-to{
-
-
-width:100%;
-
-
-}
-
-
-
-}
-
-
-
-
-
-/* ===== 鏃堕棿杞?===== */
-
-
-.timeline{
-
-
-border-left:
-
-2px solid #6ee7ff;
-
-
-
-padding-left:30px;
-
-
-}
-
-
-
-.time-item{
-
-
-margin-bottom:40px;
-
-
-}
-
-
-
-
-/* ===== 鍔ㄧ敾 ===== */
-
-
-
-.hidden{
-
-
-opacity:0;
-
-
-transform:
-
-translateY(50px);
-
-
-
-transition:
-
-1s;
-
-
-}
-
-
-
-.show{
-
-
-opacity:1;
-
-
-transform:none;
-
-
-}
-
-
-
-
-
-footer{
-
-
-text-align:center;
-
-
-padding:60px;
-
-
-color:#888;
-
-
-}
-
-
-
-
-
 </style>
-
-
 </head>
-
-
-
 <body>
 
-
 <canvas id="stars"></canvas>
-
-
-<div class="cursor"></div>
-
-
+<div class="cursor-glow"></div>
 
 <nav>
-
-
-<div class="logo">
-
-mikukumi
-
-</div>
-
-
-<div>
-
-
-<a href="#about">
-About
-</a>
-
-
-<a href="#interest">
-Interest
-</a>
-
-
-<a href="#project">
-Project
-</a>
-
-
-<a href="#contact">
-Contact
-</a>
-
-
-</div>
-
-
+  <div class="logo">mikuumi</div>
+  <div class="nav-links">
+    <a href="#about">关于</a>
+    <a href="#interest">兴趣</a>
+    <a href="#project">项目</a>
+    <a href="#contact">联系</a>
+  </div>
 </nav>
 
-
-
-
 <section class="hero">
-
-
-<div>
-
-
-<img
-
-src="鍥惧儚.png"
-
-class="avatar"
-
->
-
-
-
-<h1>
-
-mikukumi
-
-</h1>
-
-
-
-<p>
-
-Technology 路 AI 路 Music 路 Creation
-
-</p>
-
-
-
-<a
-
-href="#about"
-
-class="button">
-
-Explore My World
-
-</a>
-
-
-
-</div>
-
-
+  <div class="hero-inner">
+    <div class="avatar-wrapper">
+      <div class="avatar-ring"></div>
+      <svg class="avatar-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1a1a2e"/>
+            <stop offset="100%" stop-color="#16213e"/>
+          </linearGradient>
+        </defs>
+        <rect width="200" height="200" rx="100" fill="url(#bgGrad)"/>
+        <ellipse cx="100" cy="130" rx="45" ry="50" fill="rgba(255,255,255,.06)"/>
+        <circle cx="100" cy="82" r="28" fill="rgba(255,255,255,.07)"/>
+        <circle cx="100" cy="82" r="22" fill="none" stroke="rgba(110,231,255,.15)" stroke-width="1.5"/>
+        <circle cx="100" cy="82" r="15" fill="none" stroke="rgba(192,132,252,.12)" stroke-width="1"/>
+        <text x="148" y="55" font-size="28" fill="rgba(110,231,255,.25)">&#9835;</text>
+        <text x="42" y="170" font-size="18" fill="rgba(192,132,252,.2)" font-family="monospace">&lt;/&gt;</text>
+        <rect x="88" y="152" width="24" height="3" rx="1.5" fill="rgba(110,231,255,.3)">
+          <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+        </rect>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>mikuumi</h1>
+      <div class="hero-tags">
+        <span class="hero-tag">技术</span>
+        <span class="hero-tag">AI</span>
+        <span class="hero-tag">音乐</span>
+        <span class="hero-tag">创作</span>
+      </div>
+      <p class="hero-desc">
+        一个喜欢折腾技术的 INTP 高中生，在代码、音乐和 AI 的数字世界里漫游。
+      </p>
+      <a href="#about" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        探索我的世界
+      </a>
+    </div>
+  </div>
 </section>
-
-
-<!-- =================
-About Me
-================= -->
-
 
 <section id="about" class="hidden">
-
-
-<h1 class="title">
-About Me
-</h1>
-
-
-
-<div class="card">
-
-
-<p>
-
-浣犲ソ锛屾垜鏄?<b>mikukumi</b>銆?
-
-<br><br>
-
-
-鎴戞槸涓€鍚嶅枩娆㈡帰绱㈡妧鏈笘鐣岀殑瀛︾敓銆?
-
-鍠滄鐮旂┒璁＄畻鏈恒€?
-浜哄伐鏅鸿兘銆?
-Linux绯荤粺銆?
-缃戦〉寮€鍙戜互鍙婂悇绉嶆湁瓒ｇ殑鏂版妧鏈€?
-
-
-<br><br>
-
-
-鎴戠浉淇℃妧鏈笉浠呬粎鏄唬鐮佸拰宸ュ叿锛?
-鏇存槸涓€绉嶈〃杈炬兂娉曘€佸垱閫犱綔鍝佺殑鏂瑰紡銆?
-
-
-<br><br>
-
-
-杩欎釜缃戠珯鏄垜鐨勬暟瀛楃┖闂达紝
-鐢ㄤ簬璁板綍鎴戠殑瀛︿範銆?
-鍏磋叮浠ュ強姝ｅ湪鎺㈢储鐨勬柟鍚戙€?
-
-</p>
-
-
-</div>
-
-
+  <h1 class="section-title">关于我</h1>
+  <div class="about-grid">
+    <div class="about-bio">
+      你好，我是 <b>mikuumi</b>。<br><br>
+      一名沉迷于探索技术世界的 <b>高中生</b>，偏爱 <b>理科</b> 思维。喜欢研究计算机底层原理、人工智能、Linux 系统、网页开发，以及各种有趣的新技术。相信技术不只是代码和工具，更是一种表达想法和创造作品的方式。这个网站就是我的数字自留地，记录学习、兴趣和方向。
+    </div>
+    <div class="about-info">
+      <div class="about-badge">
+        <span class="badge-icon">&#127891;</span>
+        <span class="badge-label">身份</span>
+        <span class="badge-value">高中生</span>
+      </div>
+      <div class="about-badge">
+        <span class="badge-icon">&#128300;</span>
+        <span class="badge-label">方向</span>
+        <span class="badge-value">理科</span>
+      </div>
+      <div class="about-badge">
+        <span class="badge-icon">&#129504;</span>
+        <span class="badge-label">MBTI</span>
+        <span class="badge-value">INTP</span>
+      </div>
+      <div class="about-badge">
+        <span class="badge-icon">&#127874;</span>
+        <span class="badge-label">生日</span>
+        <span class="badge-value">2009.9.16</span>
+      </div>
+      <div class="about-badge">
+        <span class="badge-icon">&#9800;</span>
+        <span class="badge-label">星座</span>
+        <span class="badge-value">处女座</span>
+      </div>
+    </div>
+  </div>
 </section>
-
-
-
-
-
-
-<!-- =================
-鍏磋叮
-================= -->
-
 
 <section id="interest" class="hidden">
-
-
-<h1 class="title">
-
-My Interest
-
-</h1>
-
-
-
-<div class="cards">
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-馃幍 Music
-</h2>
-
-
-<p>
-
-闊充箰鏄垜鐢熸椿涓潪甯搁噸瑕佺殑涓€閮ㄥ垎銆?
-
-鍠滄 Vocaloid銆?
-Synthesizer V銆?
-
-
-鍠滄鐮旂┒澹伴煶琛ㄧ幇銆?
-璋冮煶銆?
-闊抽璁惧浠ュ強闊充箰鍒朵綔銆?
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-馃捇 Technology
-</h2>
-
-
-<p>
-
-鍠滄鎺㈢储璁＄畻鏈烘妧鏈€?
-
-鍖呮嫭锛?
-
-Linux銆?
-Windows浼樺寲銆?
-鐢佃剳纭欢銆?
-缃戠粶銆?
-鏈嶅姟鍣ㄩ儴缃层€?
-
-
-鍠滄鎶樿吘绯荤粺锛?
-鐞嗚В鎶€鏈儗鍚庣殑鍘熺悊銆?
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-馃 Artificial Intelligence
-</h2>
-
-
-<p>
-
-鍏虫敞浜哄伐鏅鸿兘鐨勫彂灞曘€?
-
-鐮旂┒锛?
-
-AI妯″瀷銆?
-LLM銆?
-鏈湴閮ㄧ讲銆?
-鑷姩鍖栧伐鍏枫€?
-
-
-甯屾湜鏈潵鑳藉鍒涢€犲睘浜庤嚜宸辩殑AI搴旂敤銆?
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-馃幃 Gaming
-</h2>
-
-
-<p>
-
-鍠滄浼樼鐨勬父鎴忎綔鍝併€?
-
-鍋忓ソ锛?
-
-鍓ф儏椹卞姩娓告垙銆?
-鐙珛娓告垙銆?
-Minecraft銆?
-
-
-鏇村叧娉ㄦ父鎴忓甫鏉ョ殑鏁呬簨鍜屼綋楠屻€?
-
-</p>
-
-
-</div>
-
-
-
-
-
-</div>
-
-
+  <h1 class="section-title">兴趣</h1>
+  <div class="cards">
+    <div class="card">
+      <h2>&#127925; 音乐</h2>
+      <p>Vocaloid、Synthesizer V 爱好者。喜欢研究声音表现、调音、音频设备与音乐制作。</p>
+    </div>
+    <div class="card">
+      <h2>&#128187; 技术</h2>
+      <p>Linux、Windows优化、硬件、网络、服务器部署，喜欢折腾系统，理解技术背后的原理。</p>
+    </div>
+    <div class="card">
+      <h2>&#129302; AI</h2>
+      <p>关注AI发展：LLM、本地部署、自动化工具。希望未来创造属于自己的AI应用。</p>
+    </div>
+    <div class="card">
+      <h2>&#127918; 游戏</h2>
+      <p>偏好剧情驱动游戏、独立游戏、Minecraft。更关注游戏带来的故事和体验。</p>
+    </div>
+  </div>
 </section>
-
-
-
-
-
-
-
-
-<!-- =================
-鏂瑰悜
-================= -->
-
 
 <section class="hidden">
-
-
-<h1 class="title">
-
-My Direction
-
-</h1>
-
-
-
-<div class="cards">
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-
-馃惂 Linux
-
-</h2>
-
-
-<p>
-
-瀛︿範 Linux 绯荤粺绠＄悊锛?
-
-灏濊瘯杞欢閮ㄧ讲銆?
-鏈嶅姟鍣ㄦ惌寤恒€?
-鐜閰嶇疆銆?
-
-
-</p>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-
-馃寪 Web Development
-
-</h2>
-
-
-<p>
-
-瀛︿範 HTML銆?
-CSS銆?
-JavaScript銆?
-
-
-鍒朵綔涓汉缃戠珯锛?
-鎺㈢储鍓嶇璁捐鍜屼氦浜掑姩鐢汇€?
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-
-馃枼 Hardware
-
-</h2>
-
-
-<p>
-
-鍠滄鐮旂┒鐢佃剳纭欢銆?
-
-鍖呮嫭锛?
-
-CPU銆?
-GPU銆?
-瀛樺偍銆?
-绯荤粺鎬ц兘浼樺寲銆?
-
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-</div>
-
-
+  <h1 class="section-title">学习方向</h1>
+  <div class="cards">
+    <div class="card">
+      <h2>&#128188; Linux</h2>
+      <p>学习系统管理、软件部署、服务器搭建与环境配置。</p>
+    </div>
+    <div class="card">
+      <h2>&#127760; 网页开发</h2>
+      <p>HTML、CSS、JavaScript，制作个人网站，探索前端设计与交互动画。</p>
+    </div>
+    <div class="card">
+      <h2>&#128268; 硬件</h2>
+      <p>研究CPU、GPU、存储、系统性能优化，了解硬件底层运行机制。</p>
+    </div>
+  </div>
 </section>
-
-
-
-
-
-
-
-<!-- =================
-椤圭洰
-================= -->
-
 
 <section id="project" class="hidden">
-
-
-<h1 class="title">
-
-Projects
-
-</h1>
-
-
-
-<div class="cards">
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-
-馃寣 Personal Website
-
-</h2>
-
-
-<p>
-
-璁捐骞跺紑鍙戣嚜宸辩殑涓汉涓婚〉銆?
-
-
-鐮旂┒锛?
-
-缃戦〉鍔ㄧ敾銆?
-瑙嗚璁捐銆?
-鍝嶅簲寮忓竷灞€銆?
-
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-
-鈽侊笍 Server Exploration
-
-</h2>
-
-
-<p>
-
-灏濊瘯鎼缓涓汉鏈嶅姟銆?
-
-
-鍖呮嫭锛?
-
-Cloudflare Tunnel銆?
-鏂囦欢鏈嶅姟銆?
-鏈哄櫒浜烘湇鍔°€?
-
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-
-馃 AI Laboratory
-
-</h2>
-
-
-<p>
-
-鎺㈢储AI宸ュ叿銆?
-
-灏濊瘯锛?
-
-妯″瀷杩愯銆?
-鑷姩鍖栥€?
-AI搴旂敤寮€鍙戙€?
-
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-
-馃帶 Audio World
-
-</h2>
-
-
-<p>
-
-鎺㈢储闊充箰涓庡０闊炽€?
-
-
-鐮旂┒锛?
-
-FLAC銆?
-闊抽璁惧銆?
-铏氭嫙姝屾墜璋冩暀銆?
-
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-</div>
-
-
+  <h1 class="section-title">项目</h1>
+  <div class="cards">
+    <div class="card">
+      <h2>&#127760; 个人网站</h2>
+      <p>设计开发个人主页，研究网页动画、视觉设计、响应式布局。</p>
+    </div>
+    <div class="card">
+      <h2>&#9733; 服务器</h2>
+      <p>搭建个人服务：Cloudflare Tunnel、文件服务、机器人服务。</p>
+    </div>
+    <div class="card">
+      <h2>&#129302; AI 实验室</h2>
+      <p>探索AI工具：模型运行、自动化流程、AI应用开发。</p>
+    </div>
+    <div class="card">
+      <h2>&#127926; 音频</h2>
+      <p>探索音乐与声音：FLAC、音频设备、虚拟歌手调教。</p>
+    </div>
+  </div>
 </section>
-
-
-
-
-
-
-
-
-<!-- =================
-鎶€鑳?
-================= -->
-
 
 <section class="hidden">
-
-
-<h1 class="title">
-
-Skills
-
-</h1>
-
-
-
-
-
-<div class="skill">
-
-
-<div class="skill-name">
-
-HTML / CSS / JavaScript
-
-</div>
-
-
-<div class="bar">
-
-<div class="progress"
-
-style="width:75%">
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="skill">
-
-
-<div class="skill-name">
-
-Linux
-
-</div>
-
-
-<div class="bar">
-
-<div class="progress"
-
-style="width:65%">
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-<div class="skill">
-
-
-<div class="skill-name">
-
-AI Exploration
-
-</div>
-
-
-<div class="bar">
-
-<div class="progress"
-
-style="width:70%">
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-<div class="skill">
-
-
-<div class="skill-name">
-
-Computer Hardware
-
-</div>
-
-
-<div class="bar">
-
-<div class="progress"
-
-style="width:80%">
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
+  <h1 class="section-title">技能</h1>
+  <div class="skill">
+    <div class="skill-name"><span>HTML / CSS / JavaScript</span><span>75%</span></div>
+    <div class="bar"><div class="progress" data-width="75"></div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name"><span>Linux</span><span>65%</span></div>
+    <div class="bar"><div class="progress" data-width="65"></div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name"><span>AI 探索</span><span>70%</span></div>
+    <div class="bar"><div class="progress" data-width="70"></div></div>
+  </div>
+  <div class="skill">
+    <div class="skill-name"><span>计算机硬件</span><span>80%</span></div>
+    <div class="bar"><div class="progress" data-width="80"></div></div>
+  </div>
 </section>
-
-
-
-
-
-
-<!-- =================
-鏃堕棿绾?
-================= -->
-
-
-<section class="hidden">
-
-
-<h1 class="title">
-
-Journey
-
-</h1>
-
-
-
-<div class="timeline">
-
-
-
-
-
-<div class="time-item">
-
-
-<h2>
-馃尡 Start
-</h2>
-
-
-<p>
-
-寮€濮嬫帴瑙︾數鑴戯紝
-鎺㈢储璁＄畻鏈轰笘鐣屻€?
-
-</p>
-
-
-</div>
-
-
-
-
-
-<div class="time-item">
-
-
-<h2>
-
-馃惂 Linux
-
-</h2>
-
-
-<p>
-
-寮€濮嬪涔燣inux锛?
-鐞嗚В绯荤粺杩愯鏂瑰紡銆?
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="time-item">
-
-
-<h2>
-
-馃 AI Era
-
-</h2>
-
-
-<p>
-
-寮€濮嬪叧娉ㄤ汉宸ユ櫤鑳斤紝
-浣跨敤AI宸ュ叿銆?
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-
-<div class="time-item">
-
-
-<h2>
-
-馃寪 Creation
-
-</h2>
-
-
-<p>
-
-鍒朵綔鑷繁鐨勭綉椤碉紝
-璁板綍鎴愰暱杩囩▼銆?
-
-</p>
-
-
-</div>
-
-
-
-
-</div>
-
-
-</section>
-
-<!-- =================
-Contact
-================= -->
 
 <section id="contact" class="hidden">
-
-
-<h1 class="title">
-
-Contact
-
-</h1>
-
-
-<div class="card">
-
-<div class="contact-list">
-
-  <div class="contact-item">
-    <a class="icon" href="https://github.com/miku-kumi" target="_blank" rel="noopener noreferrer" title="GitHub">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.41 7.86 10.94.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.36-1.3-1.72-1.3-1.72-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .98-.31 3.2 1.18a11.1 11.1 0 0 1 2.92-.39c.99.01 1.99.13 2.92.39 2.22-1.5 3.2-1.18 3.2-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.68 5.39-5.24 5.67.42.36.8 1.07.8 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.21.68.8.56A10.5 10.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+  <h1 class="section-title">联系方式</h1>
+  <div class="contact-grid">
+    <a class="contact-btn github" href="https://github.com/miku-kumi" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
     </a>
-    <a class="link" href="https://github.com/miku-kumi" target="_blank" rel="noopener noreferrer" style="color:#6ee7ff">github.com/miku-kumi</a>
-  </div>
-
-  <div class="contact-item">
-    <a class="icon" href="https://x.com/lyou93523" target="_blank" rel="noopener noreferrer" title="X">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M21.9 5.3c-.2.3-.4.5-.7.7.3-.1.6-.2.9-.2-.3.3-.7.6-1.2.8-.5.2-1 .4-1.6.5-.5.1-1.1.2-1.6.3-.9.1-1.9.3-2.8.5-1 .2-2 .5-2.9.8-.9.3-1.7.7-2.5 1.2-.8.5-1.5 1-2.1 1.6-.6.6-1.1 1.3-1.4 2.1-.3.8-.4 1.7-.1 2.6.3.9.9 1.6 1.8 2.1.9.5 2 .7 3 .5 1-.2 1.9-.6 2.8-1 .9-.4 1.7-.9 2.5-1.4.8-.5 1.6-1.1 2.3-1.7.7-.6 1.3-1.3 1.7-2.1.4-.8.6-1.6.5-2.5-.1-.9-.4-1.7-1-2.3-.6-.7-1.4-1.1-2.4-1.2z"/></svg>
+    <a class="contact-btn x" href="https://x.com/lyou93523" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
     </a>
-    <a class="link" href="https://x.com/lyou93523" target="_blank" rel="noopener noreferrer" style="color:#6ee7ff">x.com/lyou93523</a>
-  </div>
-
-  <div class="contact-item">
-    <a class="icon" href="mailto:qazwsxedcv15875471258z@gmail.com" title="Email">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5L4 8V6l8 5 8-5v2z"/></svg>
+    <a class="contact-btn gmail" href="mailto:qazwsxedcv15875471258z@gmail.com">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.91 12 9.548l6.545-4.637 1.528-1.418C21.691 2.28 24 3.434 24 5.457z"/>
+      </svg>
     </a>
-    <a class="link" href="mailto:qazwsxedcv15875471258z@gmail.com" style="color:#6ee7ff">qazwsxedcv15875471258z@gmail.com</a>
   </div>
-
-</div>
-
-<br>
-<p>欢迎一起讨论：
-<br>
-Linux、
-<br>
-AI、
-<br>
-音乐、
-<br>
-计算机技术。</p>
-
-</div>
-
+  <div class="contact-message">
+    欢迎一起讨论：Linux  · AI  · 音乐  · 计算机技术
+  </div>
 </section>
 
-
-
-
-
-
 <footer>
-
-
-漏 2026 mikukumi
-
-<br>
-
-A small digital garden built with curiosity.
-
-
+  <span>&copy; 2026 mikuumi</span>
+  <br>
+  <span>一个用好奇心搭建的小小数字花园</span>
 </footer>
+
 <script>
-
-
-// =====================
-// 婊氬姩鍑虹幇鍔ㄧ敾
-// =====================
-
-
-const observer = new IntersectionObserver(
-
-(entries)=>{
-
-
-entries.forEach(
-
-item=>{
-
-
-if(item.isIntersecting){
-
-item.target.classList.add("show");
-
-}
-
-
-}
-
-);
-
-
-}
-
-
-);
-
-
-
-document
-.querySelectorAll(".hidden")
-.forEach(
-
-el=>observer.observe(el)
-
-);
-
-
-
-
-
-
-// =====================
-// 榧犳爣璺熼殢鍏夋晥
-// =====================
-
-
-
-const cursor =
-document.querySelector(".cursor");
-
-
-
-document.addEventListener(
-
-"mousemove",
-
-(e)=>{
-
-
-cursor.style.left =
-e.clientX - 175 + "px";
-
-
-cursor.style.top =
-e.clientY - 175 + "px";
-
-
-}
-
-);
-
-
-
-
-
-
-// =====================
-// 鏄熺┖绮掑瓙绯荤粺
-// =====================
-
-
-
-const canvas =
-document.getElementById("stars");
-
-
-const ctx =
-canvas.getContext("2d");
-
-
-
-let width =
-canvas.width =
-window.innerWidth;
-
-
-let height =
-canvas.height =
-window.innerHeight;
-
-
-
-window.addEventListener(
-
-"resize",
-
-()=>{
-
-
-width =
-canvas.width =
-window.innerWidth;
-
-
-height =
-canvas.height =
-window.innerHeight;
-
-
-}
-
-);
-
-
-
-
-
-
-let stars=[];
-
-
-
-for(let i=0;i<180;i++){
-
-
-stars.push({
-
-
-x:
-Math.random()*width,
-
-
-y:
-Math.random()*height,
-
-
-size:
-Math.random()*2+0.5,
-
-
-speed:
-Math.random()*0.3+0.05,
-
-
-opacity:
-Math.random()
-
-
+window.addEventListener("load", () => {
+  document.body.classList.add("loaded");
 });
 
-
-}
-
-
-
-
-
-
-function drawStars(){
-
-
-
-ctx.clearRect(
-
-0,
-
-0,
-
-width,
-
-height
-
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((item) => {
+      if (item.isIntersecting) {
+        item.target.classList.add("show");
+        item.target.querySelectorAll(".progress").forEach((bar) => {
+          bar.style.width = bar.dataset.width + "%";
+        });
+      }
+    });
+  },
+  { threshold: 0.12 }
 );
+document.querySelectorAll(".hidden").forEach((el) => observer.observe(el));
 
+const glow = document.querySelector(".cursor-glow");
+document.addEventListener("mousemove", (e) => {
+  glow.style.left = e.clientX - 175 + "px";
+  glow.style.top = e.clientY - 175 + "px";
+});
 
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+let w = canvas.width = window.innerWidth;
+let h = canvas.height = window.innerHeight;
 
-stars.forEach(
+window.addEventListener("resize", () => {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+});
 
-star=>{
-
-
-ctx.beginPath();
-
-
-ctx.fillStyle =
-
-`rgba(110,231,255,${star.opacity})`;
-
-
-
-ctx.arc(
-
-star.x,
-
-star.y,
-
-star.size,
-
-0,
-
-Math.PI*2
-
-);
-
-
-
-ctx.fill();
-
-
-
-
-
-star.y -= star.speed;
-
-
-
-
-
-if(star.y<0){
-
-
-star.y=height;
-
-
-star.x=Math.random()*width;
-
-
+const stars = [];
+for (let i = 0; i < 180; i++) {
+  stars.push({
+    x: Math.random() * w, y: Math.random() * h,
+    size: Math.random() * 2 + 0.5,
+    speed: Math.random() * 0.25 + 0.05,
+    opacity: Math.random() * 0.8 + 0.2,
+  });
 }
-
-
-
+function drawStars() {
+  ctx.clearRect(0, 0, w, h);
+  stars.forEach((star) => {
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(110,231,255,${star.opacity})`;
+    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+    ctx.fill();
+    star.y -= star.speed;
+    if (star.y < 0) { star.y = h; star.x = Math.random() * w; }
+  });
+  requestAnimationFrame(drawStars);
 }
-
-);
-
-
-
-
-requestAnimationFrame(drawStars);
-
-
-
-}
-
-
-
 drawStars();
 
+document.querySelectorAll("nav a[href^='#']").forEach((anchor) => {
+  anchor.addEventListener("click", (e) => {
+    e.preventDefault();
+    const target = document.querySelector(anchor.getAttribute("href"));
+    if (target) target.scrollIntoView({ behavior: "smooth" });
+  });
+});
 
-
-
-
-
-
-
-// =====================
-// 椤甸潰杩涘叆娣″叆
-// =====================
-
-
-
-window.onload=()=>{
-
-
-document.body.style.opacity="1";
-
-
-}
-
-
-
+document.querySelectorAll(".contact-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const href = btn.getAttribute("href");
+    if (!href) return;
+    window.open(href, "_blank", "noopener,noreferrer");
+  });
+});
 </script>
-
-
-
 </body>
-
 </html>
