@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>mikuumi | 数字空间</title>
+<title>mikuumi | 鏁板瓧绌洪棿</title>
 <style>
 /* ===== Reset & Base ===== */
 * {
@@ -136,7 +136,8 @@ nav a:hover {
   display: block;
   position: relative;
   z-index: 1;
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  object-fit: cover;
+  background: #050510;
 }
 
 @keyframes ringSpin {
@@ -521,10 +522,10 @@ footer span {
 <nav>
   <div class="logo">mikuumi</div>
   <div class="nav-links">
-    <a href="#about">关于</a>
-    <a href="#interest">兴趣</a>
-    <a href="#project">项目</a>
-    <a href="#contact">联系</a>
+    <a href="#about">鍏充簬</a>
+    <a href="#interest">鍏磋叮</a>
+    <a href="#project">椤圭洰</a>
+    <a href="#contact">鑱旂郴</a>
   </div>
 </nav>
 
@@ -532,61 +533,44 @@ footer span {
   <div class="hero-inner">
     <div class="avatar-wrapper">
       <div class="avatar-ring"></div>
-      <svg class="avatar-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#1a1a2e"/>
-            <stop offset="100%" stop-color="#16213e"/>
-          </linearGradient>
-        </defs>
-        <rect width="200" height="200" rx="100" fill="url(#bgGrad)"/>
-        <ellipse cx="100" cy="130" rx="45" ry="50" fill="rgba(255,255,255,.06)"/>
-        <circle cx="100" cy="82" r="28" fill="rgba(255,255,255,.07)"/>
-        <circle cx="100" cy="82" r="22" fill="none" stroke="rgba(110,231,255,.15)" stroke-width="1.5"/>
-        <circle cx="100" cy="82" r="15" fill="none" stroke="rgba(192,132,252,.12)" stroke-width="1"/>
-        <text x="148" y="55" font-size="28" fill="rgba(110,231,255,.25)">&#9835;</text>
-        <text x="42" y="170" font-size="18" fill="rgba(192,132,252,.2)" font-family="monospace">&lt;/&gt;</text>
-        <rect x="88" y="152" width="24" height="3" rx="1.5" fill="rgba(110,231,255,.3)">
-          <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
-        </rect>
-      </svg>
+      <img src="图像.png" alt="mikuumi" class="avatar-svg">
     </div>
     <div class="hero-text">
       <h1>mikuumi</h1>
       <div class="hero-tags">
-        <span class="hero-tag">技术</span>
+        <span class="hero-tag">鎶€鏈?/span>
         <span class="hero-tag">AI</span>
-        <span class="hero-tag">音乐</span>
-        <span class="hero-tag">创作</span>
+        <span class="hero-tag">闊充箰</span>
+        <span class="hero-tag">鍒涗綔</span>
       </div>
       <p class="hero-desc">
-        一个喜欢折腾技术的 INTP 高中生，在代码、音乐和 AI 的数字世界里漫游。
+        涓€涓枩娆㈡姌鑵炬妧鏈殑 INTP 楂樹腑鐢燂紝鍦ㄤ唬鐮併€侀煶涔愬拰 AI 鐨勬暟瀛椾笘鐣岄噷婕父銆?
       </p>
       <a href="#about" class="btn-primary">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-        探索我的世界
+        鎺㈢储鎴戠殑涓栫晫
       </a>
     </div>
   </div>
 </section>
 
 <section id="about" class="hidden">
-  <h1 class="section-title">关于我</h1>
+  <h1 class="section-title">鍏充簬鎴?/h1>
   <div class="about-grid">
     <div class="about-bio">
-      你好，我是 <b>mikuumi</b>。<br><br>
-      一名沉迷于探索技术世界的 <b>高中生</b>，偏爱 <b>理科</b> 思维。喜欢研究计算机底层原理、人工智能、Linux 系统、网页开发，以及各种有趣的新技术。相信技术不只是代码和工具，更是一种表达想法和创造作品的方式。这个网站就是我的数字自留地，记录学习、兴趣和方向。
+      浣犲ソ锛屾垜鏄?<b>mikuumi</b>銆?br><br>
+      涓€鍚嶆矇杩蜂簬鎺㈢储鎶€鏈笘鐣岀殑 <b>楂樹腑鐢?/b>锛屽亸鐖?<b>鐞嗙</b> 鎬濈淮銆傚枩娆㈢爺绌惰绠楁満搴曞眰鍘熺悊銆佷汉宸ユ櫤鑳姐€丩inux 绯荤粺銆佺綉椤靛紑鍙戯紝浠ュ強鍚勭鏈夎叮鐨勬柊鎶€鏈€傜浉淇℃妧鏈笉鍙槸浠ｇ爜鍜屽伐鍏凤紝鏇存槸涓€绉嶈〃杈炬兂娉曞拰鍒涢€犱綔鍝佺殑鏂瑰紡銆傝繖涓綉绔欏氨鏄垜鐨勬暟瀛楄嚜鐣欏湴锛岃褰曞涔犮€佸叴瓒ｅ拰鏂瑰悜銆?
     </div>
     <div class="about-info">
       <div class="about-badge">
         <span class="badge-icon">&#127891;</span>
-        <span class="badge-label">身份</span>
-        <span class="badge-value">高中生</span>
+        <span class="badge-label">韬唤</span>
+        <span class="badge-value">楂樹腑鐢?/span>
       </div>
       <div class="about-badge">
         <span class="badge-icon">&#128300;</span>
-        <span class="badge-label">方向</span>
-        <span class="badge-value">理科</span>
+        <span class="badge-label">鏂瑰悜</span>
+        <span class="badge-value">鐞嗙</span>
       </div>
       <div class="about-badge">
         <span class="badge-icon">&#129504;</span>
@@ -595,82 +579,82 @@ footer span {
       </div>
       <div class="about-badge">
         <span class="badge-icon">&#127874;</span>
-        <span class="badge-label">生日</span>
+        <span class="badge-label">鐢熸棩</span>
         <span class="badge-value">2009.9.16</span>
       </div>
       <div class="about-badge">
         <span class="badge-icon">&#9800;</span>
-        <span class="badge-label">星座</span>
-        <span class="badge-value">处女座</span>
+        <span class="badge-label">鏄熷骇</span>
+        <span class="badge-value">澶勫コ搴?/span>
       </div>
     </div>
   </div>
 </section>
 
 <section id="interest" class="hidden">
-  <h1 class="section-title">兴趣</h1>
+  <h1 class="section-title">鍏磋叮</h1>
   <div class="cards">
     <div class="card">
-      <h2>&#127925; 音乐</h2>
-      <p>Vocaloid、Synthesizer V 爱好者。喜欢研究声音表现、调音、音频设备与音乐制作。</p>
+      <h2>&#127925; 闊充箰</h2>
+      <p>Vocaloid銆丼ynthesizer V 鐖卞ソ鑰呫€傚枩娆㈢爺绌跺０闊宠〃鐜般€佽皟闊炽€侀煶棰戣澶囦笌闊充箰鍒朵綔銆?/p>
     </div>
     <div class="card">
-      <h2>&#128187; 技术</h2>
-      <p>Linux、Windows优化、硬件、网络、服务器部署，喜欢折腾系统，理解技术背后的原理。</p>
+      <h2>&#128187; 鎶€鏈?/h2>
+      <p>Linux銆乄indows浼樺寲銆佺‖浠躲€佺綉缁溿€佹湇鍔″櫒閮ㄧ讲锛屽枩娆㈡姌鑵剧郴缁燂紝鐞嗚В鎶€鏈儗鍚庣殑鍘熺悊銆?/p>
     </div>
     <div class="card">
       <h2>&#129302; AI</h2>
-      <p>关注AI发展：LLM、本地部署、自动化工具。希望未来创造属于自己的AI应用。</p>
+      <p>鍏虫敞AI鍙戝睍锛歀LM銆佹湰鍦伴儴缃层€佽嚜鍔ㄥ寲宸ュ叿銆傚笇鏈涙湭鏉ュ垱閫犲睘浜庤嚜宸辩殑AI搴旂敤銆?/p>
     </div>
     <div class="card">
-      <h2>&#127918; 游戏</h2>
-      <p>偏好剧情驱动游戏、独立游戏、Minecraft。更关注游戏带来的故事和体验。</p>
+      <h2>&#127918; 娓告垙</h2>
+      <p>鍋忓ソ鍓ф儏椹卞姩娓告垙銆佺嫭绔嬫父鎴忋€丮inecraft銆傛洿鍏虫敞娓告垙甯︽潵鐨勬晠浜嬪拰浣撻獙銆?/p>
     </div>
   </div>
 </section>
 
 <section class="hidden">
-  <h1 class="section-title">学习方向</h1>
+  <h1 class="section-title">瀛︿範鏂瑰悜</h1>
   <div class="cards">
     <div class="card">
       <h2>&#128188; Linux</h2>
-      <p>学习系统管理、软件部署、服务器搭建与环境配置。</p>
+      <p>瀛︿範绯荤粺绠＄悊銆佽蒋浠堕儴缃层€佹湇鍔″櫒鎼缓涓庣幆澧冮厤缃€?/p>
     </div>
     <div class="card">
-      <h2>&#127760; 网页开发</h2>
-      <p>HTML、CSS、JavaScript，制作个人网站，探索前端设计与交互动画。</p>
+      <h2>&#127760; 缃戦〉寮€鍙?/h2>
+      <p>HTML銆丆SS銆丣avaScript锛屽埗浣滀釜浜虹綉绔欙紝鎺㈢储鍓嶇璁捐涓庝氦浜掑姩鐢汇€?/p>
     </div>
     <div class="card">
-      <h2>&#128268; 硬件</h2>
-      <p>研究CPU、GPU、存储、系统性能优化，了解硬件底层运行机制。</p>
+      <h2>&#128268; 纭欢</h2>
+      <p>鐮旂┒CPU銆丟PU銆佸瓨鍌ㄣ€佺郴缁熸€ц兘浼樺寲锛屼簡瑙ｇ‖浠跺簳灞傝繍琛屾満鍒躲€?/p>
     </div>
   </div>
 </section>
 
 <section id="project" class="hidden">
-  <h1 class="section-title">项目</h1>
+  <h1 class="section-title">椤圭洰</h1>
   <div class="cards">
     <div class="card">
-      <h2>&#127760; 个人网站</h2>
-      <p>设计开发个人主页，研究网页动画、视觉设计、响应式布局。</p>
+      <h2>&#127760; 涓汉缃戠珯</h2>
+      <p>璁捐寮€鍙戜釜浜轰富椤碉紝鐮旂┒缃戦〉鍔ㄧ敾銆佽瑙夎璁°€佸搷搴斿紡甯冨眬銆?/p>
     </div>
     <div class="card">
-      <h2>&#9733; 服务器</h2>
-      <p>搭建个人服务：Cloudflare Tunnel、文件服务、机器人服务。</p>
+      <h2>&#9733; 鏈嶅姟鍣?/h2>
+      <p>鎼缓涓汉鏈嶅姟锛欳loudflare Tunnel銆佹枃浠舵湇鍔°€佹満鍣ㄤ汉鏈嶅姟銆?/p>
     </div>
     <div class="card">
-      <h2>&#129302; AI 实验室</h2>
-      <p>探索AI工具：模型运行、自动化流程、AI应用开发。</p>
+      <h2>&#129302; AI 瀹為獙瀹?/h2>
+      <p>鎺㈢储AI宸ュ叿锛氭ā鍨嬭繍琛屻€佽嚜鍔ㄥ寲娴佺▼銆丄I搴旂敤寮€鍙戙€?/p>
     </div>
     <div class="card">
-      <h2>&#127926; 音频</h2>
-      <p>探索音乐与声音：FLAC、音频设备、虚拟歌手调教。</p>
+      <h2>&#127926; 闊抽</h2>
+      <p>鎺㈢储闊充箰涓庡０闊筹細FLAC銆侀煶棰戣澶囥€佽櫄鎷熸瓕鎵嬭皟鏁欍€?/p>
     </div>
   </div>
 </section>
 
 <section class="hidden">
-  <h1 class="section-title">技能</h1>
+  <h1 class="section-title">鎶€鑳?/h1>
   <div class="skill">
     <div class="skill-name"><span>HTML / CSS / JavaScript</span><span>75%</span></div>
     <div class="bar"><div class="progress" data-width="75"></div></div>
@@ -680,17 +664,17 @@ footer span {
     <div class="bar"><div class="progress" data-width="65"></div></div>
   </div>
   <div class="skill">
-    <div class="skill-name"><span>AI 探索</span><span>70%</span></div>
+    <div class="skill-name"><span>AI 鎺㈢储</span><span>70%</span></div>
     <div class="bar"><div class="progress" data-width="70"></div></div>
   </div>
   <div class="skill">
-    <div class="skill-name"><span>计算机硬件</span><span>80%</span></div>
+    <div class="skill-name"><span>璁＄畻鏈虹‖浠?/span><span>80%</span></div>
     <div class="bar"><div class="progress" data-width="80"></div></div>
   </div>
 </section>
 
 <section id="contact" class="hidden">
-  <h1 class="section-title">联系方式</h1>
+  <h1 class="section-title">鑱旂郴鏂瑰紡</h1>
   <div class="contact-grid">
     <a class="contact-btn github" href="https://github.com/miku-kumi" target="_blank" rel="noopener noreferrer">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -709,14 +693,14 @@ footer span {
     </a>
   </div>
   <div class="contact-message">
-    欢迎一起讨论：Linux  · AI  · 音乐  · 计算机技术
+    娆㈣繋涓€璧疯璁猴細Linux  路 AI  路 闊充箰  路 璁＄畻鏈烘妧鏈?
   </div>
 </section>
 
 <footer>
   <span>&copy; 2026 mikuumi</span>
   <br>
-  <span>一个用好奇心搭建的小小数字花园</span>
+  <span>涓€涓敤濂藉蹇冩惌寤虹殑灏忓皬鏁板瓧鑺卞洯</span>
 </footer>
 
 <script>
@@ -797,3 +781,6 @@ document.querySelectorAll(".contact-btn").forEach((btn) => {
 </script>
 </body>
 </html>
+
+
+
