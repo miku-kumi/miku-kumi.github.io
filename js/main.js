@@ -156,7 +156,11 @@
 
   /* ---------- 启动:模块间互相独立,单个失败不影响其余 ---------- */
   const modules = [initStars, initReveal, initNav, initGlow];
-  function boot() { modules.forEach(fn => { try { fn(); } catch (err) { /* 单模块降级 */ } }); }
+  function boot() {
+    // iOS Safari 需要页面存在 touch 监听才会激活 :active 样式
+    document.addEventListener("touchstart", () => {}, { passive: true });
+    modules.forEach(fn => { try { fn(); } catch (err) { /* 单模块降级 */ } });
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();
 })();
