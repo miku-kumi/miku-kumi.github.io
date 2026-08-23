@@ -21,8 +21,9 @@
 
 **已有视觉语言**(后续改动必须与之协调,不允许整体推翻):
 - 深色背景 `#050510`;核心渐变色:青色 `#6ee7ff` → 紫色 `#c084fc`
-- 星空 canvas 背景:180 颗缓慢上浮的星点,requestAnimationFrame 常驻绘制
-- 鼠标光晕跟随(`.cursor-glow`)
+- 星空 canvas 背景:缓慢上浮的星点(桌面 180 颗 / 窄屏 90 颗),requestAnimationFrame 常驻绘制
+- 鼠标光晕跟随(`.cursor-glow`,仅桌面;触屏设备通过 `@media (hover: none)` 隐藏)
+- 尊重系统"减少动态效果"设置(`prefers-reduced-motion`:停用浮动/光环动画、星空静态呈现、锚点瞬时定位)
 - 玻璃拟态卡片:白色低透明度底 + `backdrop-filter: blur`
 - 滚动显现动画:IntersectionObserver 把 `.hidden` 切换成 `.show`,同时触发技能进度条填充
 - 头像:旋转渐变光环 + 上下浮动动画
@@ -30,8 +31,9 @@
 
 **当前实现的已知细节**(这是现状备忘,不是待修清单;未经用户要求不要顺手重构):
 - 导航只有 4 个锚点(关于 / 兴趣 / 项目 / 联系);"学习方向""技能"两个 section 没有 id、不在导航里
-- `.contact-btn` 的 click 被 JS 统一拦截后用 `window.open` 打开,包括 `mailto:` 链接(移动端唤起邮件客户端的行为可能受影响)
-- mousemove 光晕直接改 `style.left/top`,未做 rAF 合帧
+- Hero 高度用 `100svh`(带 `100vh` 回退)避免手机地址栏抖动;锚点滚动偏移由 `html` 上的 `scroll-padding-top` 控制(桌面 76px / 移动端 68px),改导航高度时记得同步
+- 联系按钮是原生 `<a>`(外链带 `target="_blank" rel="noopener noreferrer"`,Gmail 为 `mailto:`),没有 JS 拦截——不要加回去
+- mousemove 光晕直接改 `style.left/top`,未做 rAF 合帧(仅桌面存在)
 - 尚无 meta description / favicon / Open Graph 标签(用户提出时再补)
 
 ---
