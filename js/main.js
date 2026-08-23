@@ -113,7 +113,7 @@
       nav.classList.toggle("scrolled", !en.isIntersecting);
     }).observe(sentinel);
 
-    // 视口中线穿过哪个分区就高亮哪个链接
+    // 视口中线穿过哪个分区就高亮哪个链接(视觉 .active + 屏幕阅读器 aria-current 双通道)
     const links = Array.from(document.querySelectorAll(".nav-links a"));
     const byId = {};
     links.forEach(a => {
@@ -125,8 +125,12 @@
         if (!en.isIntersecting) return;
         const link = byId[en.target.id];
         if (!link) return;
-        links.forEach(l => l.classList.remove("active"));
+        links.forEach(l => {
+          l.classList.remove("active");
+          l.removeAttribute("aria-current");
+        });
         link.classList.add("active");
+        link.setAttribute("aria-current", "true");
       });
     }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
     Object.keys(byId).forEach(id => io.observe(document.getElementById(id)));

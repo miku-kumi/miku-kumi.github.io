@@ -116,7 +116,7 @@ a { -webkit-tap-highlight-color: transparent; } /* 自定义交互已有完整�
   -webkit-text-fill-color: transparent;
   letter-spacing: -1px; line-height: 1.1;
 }
-.hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; list-style: none; }
 .hero-tag {
   padding: 4px 14px; border-radius: 20px;
   background: var(--surface-hover);
