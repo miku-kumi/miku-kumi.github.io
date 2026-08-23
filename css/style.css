@@ -248,6 +248,7 @@ footer span { display: inline-block; margin: 3px 0; }
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
+    transition-delay: 0s !important; /* 时长清零不够,延迟也要清,否则技能条空等 .25s */
   }
   .cursor-glow { display: none; }
 }
