@@ -1,231 +1,143 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>mikuumi | &#x6570;&#x5B57;&#x7A7A;&#x95F4;</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 76px; }
-body { background: #050510; color: #fff; font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif; overflow-x: hidden; opacity: 0; transition: opacity .8s ease; }
-body.loaded { opacity: 1; }
-#stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; }
-.cursor-glow { position: fixed; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle, rgba(110,231,255,.12), transparent 70%); pointer-events: none; z-index: -1; transition: left .08s ease, top .08s ease; }
-nav { position: fixed; top: 0; left: 0; width: 100%; height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 6%; background: rgba(0,0,0,.4); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); z-index: 20; border-bottom: 1px solid rgba(255,255,255,.06); }
-.logo { font-size: 20px; font-weight: 700; background: linear-gradient(90deg, #6ee7ff, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.nav-links { display: flex; gap: 8px; }
-nav a { color: rgba(255,255,255,.7); text-decoration: none; padding: 6px 14px; font-size: 14px; border-radius: 20px; transition: all .3s; }
-nav a:hover { color: #6ee7ff; background: rgba(110,231,255,.08); }
-.hero { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; justify-content: center; padding: 72px 6% 48px; }
-.hero-inner { display: flex; align-items: center; gap: 40px; max-width: 900px; width: 100%; }
-.avatar-wrapper { position: relative; flex-shrink: 0; width: 140px; height: 140px; animation: float 5s ease-in-out infinite; }
-.avatar-ring { position: absolute; inset: -6px; border-radius: 50%; background: linear-gradient(135deg, #6ee7ff, #c084fc, #6ee7ff); background-size: 300% 300%; animation: ringSpin 4s linear infinite; z-index: -1; }
-.avatar-ring::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: #050510; }
-.avatar-svg { width: 100%; height: 100%; border-radius: 50%; display: block; position: relative; z-index: 1; object-fit: cover; background: #050510; }
-@keyframes ringSpin { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
-.hero-text { flex: 1; text-align: left; }
-.hero h1 { font-size: clamp(32px, 5.5vw, 50px); background: linear-gradient(90deg, #6ee7ff, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; letter-spacing: -1px; line-height: 1.1; }
-.hero-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-.hero-tag { padding: 4px 14px; border-radius: 20px; background: rgba(110,231,255,.08); border: 1px solid rgba(110,231,255,.15); color: rgba(255,255,255,.7); font-size: 13px; transition: all .3s; }
-.hero-tag:hover { background: rgba(110,231,255,.15); border-color: rgba(110,231,255,.3); color: #6ee7ff; }
-.hero-desc { margin-top: 14px; color: rgba(255,255,255,.55); font-size: 15px; line-height: 1.7; max-width: 480px; }
-.btn-primary { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; padding: 10px 26px; border-radius: 50px; background: linear-gradient(90deg, #6ee7ff, #c084fc); color: #fff; text-decoration: none; font-weight: 600; font-size: 14px; transition: all .3s ease; box-shadow: 0 0 20px rgba(110,231,255,.2); }
-.btn-primary:hover { transform: scale(1.05) translateY(-2px); box-shadow: 0 0 36px rgba(110,231,255,.35); }
-.btn-primary svg { width: 16px; height: 16px; }
-section { padding: 56px 8%; }
-.section-title { font-size: clamp(21px, 3vw, 29px); text-align: center; margin-bottom: 32px; font-weight: 700; }
-.section-title::after { content: ""; display: block; width: 50px; height: 3px; background: linear-gradient(90deg, #6ee7ff, #c084fc); margin: 12px auto 0; border-radius: 4px; }
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-.card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); border-radius: 16px; padding: 22px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); transition: all .35s cubic-bezier(.15,.75,.35,1); }
-.card:hover { transform: translateY(-8px); border-color: rgba(110,231,255,.25); box-shadow: 0 16px 40px rgba(110,231,255,.12); }
-.card h2 { color: #6ee7ff; margin-bottom: 12px; font-size: 17px; }
-.card p { line-height: 1.8; color: rgba(255,255,255,.75); font-size: 14px; }
-.about-grid { display: flex; flex-direction: column; gap: 24px; max-width: 800px; margin: 0 auto; }
-.about-bio { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); border-radius: 16px; padding: 24px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); line-height: 1.8; color: rgba(255,255,255,.78); font-size: 15px; }
-.about-bio b { color: #6ee7ff; }
-.about-info { display: flex; flex-wrap: wrap; gap: 12px; }
-.about-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); font-size: 14px; color: rgba(255,255,255,.8); transition: all .3s; }
-.about-badge:hover { background: rgba(110,231,255,.08); border-color: rgba(110,231,255,.2); transform: translateY(-2px); }
-.about-badge .badge-icon { font-size: 18px; }
-.about-badge .badge-label { color: rgba(255,255,255,.5); font-size: 12px; }
-.about-badge .badge-value { font-weight: 600; color: #6ee7ff; }
-.skill { margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; }
-.skill-name { display: flex; justify-content: space-between; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: rgba(255,255,255,.85); }
-.bar { height: 6px; background: rgba(255,255,255,.08); border-radius: 10px; overflow: hidden; }
-.progress { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #6ee7ff, #c084fc); width: 0; transition: width 1.2s cubic-bezier(.15,.75,.35,1); }
-.contact-grid { display: flex; justify-content: center; gap: 20px; }
-.contact-btn { display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); color: #fff; text-decoration: none; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all .35s cubic-bezier(.15,.75,.35,1); position: relative; cursor: pointer; }
-.contact-btn svg { width: 26px; height: 26px; fill: currentColor; transition: transform .35s ease; }
-.contact-btn:hover svg { transform: scale(1.2); }
-.contact-btn.github:hover { border-color: rgba(255,255,255,.3); transform: translateY(-5px); box-shadow: 0 10px 24px rgba(255,255,255,.08); }
-.contact-btn.x:hover { border-color: rgba(110,231,255,.35); transform: translateY(-5px); box-shadow: 0 10px 24px rgba(110,231,255,.1); }
-.contact-btn.gmail:hover { border-color: rgba(234,67,53,.35); transform: translateY(-5px); box-shadow: 0 10px 24px rgba(234,67,53,.1); }
-.contact-message { text-align: center; margin-top: 28px; color: rgba(255,255,255,.55); font-size: 14px; line-height: 1.8; }
-footer { text-align: center; padding: 40px 5% 32px; color: rgba(255,255,255,.35); font-size: 13px; border-top: 1px solid rgba(255,255,255,.06); }
-footer span { display: inline-block; margin: 3px 0; }
-@media (hover: none) { .cursor-glow { display: none; } }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .avatar-wrapper, .avatar-ring { animation: none; }
-}
-.hidden { opacity: 0; transform: translateY(40px); transition: all .7s cubic-bezier(.15,.75,.35,1); }
-.show { opacity: 1; transform: none; }
-@media (max-width: 768px) {
-  html { scroll-padding-top: 68px; }
-  nav { height: 56px; padding: 0 5%; }
-  .logo { font-size: 20px; }
-  .nav-links { gap: 4px; }
-  nav a { padding: 6px 10px; font-size: 13px; }
-  .hero { min-height: 100vh; min-height: 100svh; padding: 64px 5% 36px; }
-  .hero-inner { flex-direction: column; text-align: center; gap: 24px; }
-  .avatar-wrapper { width: 104px; height: 104px; }
-  .hero-text { text-align: center; }
-  .hero-tags { justify-content: center; }
-  .hero-desc { margin-left: auto; margin-right: auto; }
-  section { padding: 44px 5%; }
-  .section-title { margin-bottom: 24px; }
-  .cards { grid-template-columns: 1fr; gap: 16px; }
-  .card { padding: 18px; }
-  .about-info { justify-content: center; }
-  .about-badge { padding: 8px 14px; font-size: 13px; }
-  .contact-grid { gap: 16px; }
-  .contact-btn { width: 52px; height: 52px; }
-  .contact-btn svg { width: 22px; height: 22px; }
-}
-@media (max-width: 480px) {
-  nav { padding: 0 4%; }
-  .logo { font-size: 18px; }
-  .nav-links { gap: 2px; }
-  nav a { padding: 6px 9px; font-size: 12px; }
-  .hero h1 { font-size: clamp(30px, 11vw, 38px); }
-  .hero-tag { font-size: 12px; padding: 4px 12px; }
-  .about-badge { flex: 1 1 calc(50% - 6px); justify-content: center; }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mikuumi | 数字空间</title>
+  <meta name="description" content="mikuumi 的个人数字空间——一个喜欢折腾技术的 INTP 高中生,在代码、音乐和 AI 的数字世界里漫游。关注 Linux、AI、硬件与虚拟歌手音乐。">
+  <meta name="theme-color" content="#050510">
+  <link rel="canonical" href="https://a.gugugagaea.de5.net/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="mikuumi">
+  <meta property="og:title" content="mikuumi | 数字空间">
+  <meta property="og:description" content="一个喜欢折腾技术的 INTP 高中生,在代码、音乐和 AI 的数字世界里漫游。">
+  <meta property="og:url" content="https://a.gugugagaea.de5.net/">
+  <meta property="og:image" content="https://a.gugugagaea.de5.net/%E5%9B%BE%E5%83%8F.png">
+  <!-- 图标与样式 -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-<canvas id="stars"></canvas>
-<div class="cursor-glow"></div>
-<nav>
-  <div class="logo">mikuumi</div>
-  <div class="nav-links">
-    <a href="#about">&#x5173;&#x4E8E;</a>
-    <a href="#interest">&#x5174;&#x8DA3;</a>
-    <a href="#project">&#x9879;&#x76EE;</a>
-    <a href="#contact">&#x8054;&#x7CFB;</a>
-  </div>
-</nav>
-<section class="hero">
-  <div class="hero-inner">
-    <div class="avatar-wrapper">
-      <div class="avatar-ring"></div>
-      <img src="&#x56FE;&#x50CF;.png" alt="mikuumi" class="avatar-svg">
-    </div>
-    <div class="hero-text">
-      <h1>mikuumi</h1>
-      <div class="hero-tags">
-        <span class="hero-tag">&#x79D1;&#x6280;</span>
-        <span class="hero-tag">AI</span>
-        <span class="hero-tag">&#x97F3;&#x4E50;</span>
-        <span class="hero-tag">&#x521B;&#x4F5C;</span>
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header>
+    <nav class="nav" aria-label="主导航">
+      <div class="logo">mikuumi</div>
+      <div class="nav-links">
+        <a href="#about">关于</a>
+        <a href="#interest">兴趣</a>
+        <a href="#project">项目</a>
+        <a href="#contact">联系</a>
       </div>
-      <p class="hero-desc">&#x4E00;&#x4E2A;&#x559C;&#x6B22;&#x6298;&#x817E;&#x6280;&#x672F;&#x7684; INTP &#x9AD8;&#x4E2D;&#x751F;&#xFF0C;&#x5728;&#x4EE3;&#x7801;&#x3001;&#x97F3;&#x4E50;&#x548C; AI &#x7684;&#x6570;&#x5B57;&#x4E16;&#x754C;&#x91CC;&#x6F2B;&#x6E38;&#x3002;</p>
-      <a href="#about" class="btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>&#x63A2;&#x7D22;&#x6211;&#x7684;&#x4E16;&#x754C;</a>
-    </div>
-  </div>
-</section>
-<section id="about" class="hidden">
-  <h1 class="section-title">&#x5173;&#x4E8E;&#x6211;</h1>
-  <div class="about-grid">
-    <div class="about-bio">&#x4F60;&#x597D;&#xFF0C;&#x6211;&#x662F; <b>mikuumi</b>.<br><br>&#x4E00;&#x540D;&#x6C89;&#x8FF7;&#x4E8E;&#x63A2;&#x7D22;&#x6280;&#x672F;&#x4E16;&#x754C;&#x7684; <b>&#x9AD8;&#x4E2D;&#x751F;</b>&#xFF0C;&#x504F;&#x7231; <b>&#x7406;&#x79D1;</b> &#x601D;&#x7EF4;&#x3002;&#x559C;&#x6B22;&#x7814;&#x7A76;&#x8BA1;&#x7B97;&#x673A;&#x5E95;&#x5C42;&#x539F;&#x7406;&#x3001;&#x4EBA;&#x5DE5;&#x667A;&#x80FD;&#x3001;Linux &#x7CFB;&#x7EDF;&#x3001;&#x7F51;&#x9875;&#x5F00;&#x53D1;&#xFF0C;&#x4EE5;&#x53CA;&#x5404;&#x79CD;&#x6709;&#x8DA3;&#x7684;&#x65B0;&#x6280;&#x672F;&#x3002;&#x76F8;&#x4FE1;&#x6280;&#x672F;&#x4E0D;&#x53EA;&#x662F;&#x4EE3;&#x7801;&#x548C;&#x5DE5;&#x5177;&#xFF0C;&#x66F4;&#x662F;&#x4E00;&#x79CD;&#x8868;&#x8FBE;&#x60F3;&#x6CD5;&#x548C;&#x521B;&#x4F5C;&#x4F5C;&#x54C1;&#x7684;&#x65B9;&#x5F0F;&#x3002;&#x8FD9;&#x4E2A;&#x7F51;&#x7AD9;&#x5C31;&#x662F;&#x6211;&#x7684;&#x6570;&#x5B57;&#x81EA;&#x7559;&#x5730;&#xFF0C;&#x8BB0;&#x5F55;&#x5B66;&#x4E60;&#x3001;&#x5174;&#x8DA3;&#x548C;&#x65B9;&#x5411;&#x3002;</div>
-    <div class="about-info">
-      <div class="about-badge"><span class="badge-icon">&#x1F393;</span><span class="badge-label">&#x8EAB;&#x4EFD;</span><span class="badge-value">&#x9AD8;&#x4E2D;&#x751F;</span></div>
-      <div class="about-badge"><span class="badge-icon">&#x1F4BC;</span><span class="badge-label">&#x65B9;&#x5411;</span><span class="badge-value">&#x7406;&#x79D1;</span></div>
-      <div class="about-badge"><span class="badge-icon">&#x1F9E0;</span><span class="badge-label">MBTI</span><span class="badge-value">INTP</span></div>
-      <div class="about-badge"><span class="badge-icon">&#x1F382;</span><span class="badge-label">&#x751F;&#x65E5;</span><span class="badge-value">2009.9.16</span></div>
-      <div class="about-badge"><span class="badge-icon">&#x264C;</span><span class="badge-label">&#x661F;&#x5EA7;</span><span class="badge-value">&#x5904;&#x5973;&#x5EA7;</span></div>
-    </div>
-  </div>
-</section>
-<section id="interest" class="hidden">
-  <h1 class="section-title">&#x5174;&#x8DA3;</h1>
-  <div class="cards">
-    <div class="card"><h2>&#x1F3B5; &#x97F3;&#x4E50;</h2><p>Vocaloid&#x3001;Synthesizer V &#x7231;&#x597D;&#x8005;&#x3002;&#x559C;&#x6B22;&#x7814;&#x7A76;&#x58F0;&#x97F3;&#x8868;&#x73B0;&#x3001;&#x8C03;&#x97F3;&#x3001;&#x97F3;&#x9891;&#x8BBE;&#x5907;&#x4E0E;&#x97F3;&#x4E50;&#x5236;&#x4F5C;&#x3002;</p></div>
-    <div class="card"><h2>&#x1F4BB; &#x6280;&#x672F;</h2><p>Linux&#x3001;Windows &#x4F18;&#x5316;&#x3001;&#x786C;&#x4EF6;&#x3001;&#x7F51;&#x7EDC;&#x3001;&#x670D;&#x52A1;&#x5668;&#x90E8;&#x7F72;&#xFF0C;&#x559C;&#x6B22;&#x6298;&#x817E;&#x7CFB;&#x7EDF;&#xFF0C;&#x7406;&#x89E3;&#x6280;&#x672F;&#x80CC;&#x540E;&#x7684;&#x539F;&#x7406;&#x3002;</p></div>
-    <div class="card"><h2>&#x1F9E2; AI</h2><p>&#x5173;&#x6CE8;AI&#x53D1;&#x5C55;&#xFF1A;LLM&#x3001;&#x672C;&#x5730;&#x90E8;&#x7F72;&#x3001;&#x81EA;&#x52A8;&#x5316;&#x5DE5;&#x5177;&#x3002;&#x5E0C;&#x671B;&#x672A;&#x6765;&#x521B;&#x9020;&#x5C5E;&#x4E8E;&#x81EA;&#x5DF1;&#x7684;AI&#x5E94;&#x7528;&#x3002;</p></div>
-    <div class="card"><h2>&#x1F3AE; &#x6E38;&#x620F;</h2><p>&#x504F;&#x597D;&#x5267;&#x60C5;&#x9A71;&#x52A8;&#x6E38;&#x620F;&#x3001;&#x72EC;&#x7ACB;&#x6E38;&#x620F;&#x3001;Minecraft&#x3002;&#x66F4;&#x5173;&#x6CE8;&#x6E38;&#x620F;&#x5E26;&#x6765;&#x7684;&#x6545;&#x4E8B;&#x548C;&#x4F53;&#x9A8C;&#x3002;</p></div>
-  </div>
-</section>
-<section class="hidden">
-  <h1 class="section-title">&#x5B66;&#x4E60;&#x65B9;&#x5411;</h1>
-  <div class="cards">
-    <div class="card"><h2>&#x1F4AC; Linux</h2><p>&#x5B66;&#x4E60;&#x7CFB;&#x7EDF;&#x7BA1;&#x7406;&#x3001;&#x8F6F;&#x4EF6;&#x90E8;&#x7F72;&#x3001;&#x670D;&#x52A1;&#x5668;&#x642D;&#x5EFA;&#x4E0E;&#x73AF;&#x5883;&#x914D;&#x7F6E;&#x3002;</p></div>
-    <div class="card"><h2>&#x1F310; &#x7F51;&#x9875;&#x5F00;&#x53D1;</h2><p>HTML&#x3001;CSS&#x3001;JavaScript&#xFF0C;&#x5236;&#x4F5C;&#x4E2A;&#x4EBA;&#x7F51;&#x7AD9;&#xFF0C;&#x63A2;&#x7D22;&#x524D;&#x7AEF;&#x8BBE;&#x8BA1;&#x4E0E;&#x4EA4;&#x4E92;&#x52A8;&#x753B;&#x3002;</p></div>
-    <div class="card"><h2>&#x1F50C; &#x786C;&#x4EF6;</h2><p>&#x7814;&#x7A76;CPU&#x3001;GPU&#x3001;&#x5B58;&#x50A8;&#x3001;&#x7CFB;&#x7EDF;&#x6027;&#x80FD;&#x4F18;&#x5316;&#xFF0C;&#x4E86;&#x89E3;&#x786C;&#x4EF6;&#x5E95;&#x5C42;&#x8FD0;&#x884C;&#x673A;&#x5236;&#x3002;</p></div>
-  </div>
-</section>
-<section id="project" class="hidden">
-  <h1 class="section-title">&#x9879;&#x76EE;</h1>
-  <div class="cards">
-    <div class="card"><h2>&#x1F310; &#x4E2A;&#x4EBA;&#x7F51;&#x7AD9;</h2><p>&#x8BBE;&#x8BA1;&#x5F00;&#x53D1;&#x4E2A;&#x4EBA;&#x4E3B;&#x9875;&#xFF0C;&#x7814;&#x7A76;&#x7F51;&#x9875;&#x52A8;&#x753B;&#x3001;&#x89C6;&#x89C9;&#x8BBE;&#x8BA1;&#x3001;&#x54CD;&#x5E94;&#x5F0F;&#x5E03;&#x5C40;&#x3002;</p></div>
-    <div class="card"><h2>&#x2605; &#x670D;&#x52A1;&#x5668;</h2><p>&#x642D;&#x5EFA;&#x4E2A;&#x4EBA;&#x670D;&#x52A1;&#xFF1A;Cloudflare Tunnel&#x3001;&#x6587;&#x4EF6;&#x670D;&#x52A1;&#x3001;&#x673A;&#x5668;&#x4EBA;&#x670D;&#x52A1;&#x3002;</p></div>
-    <div class="card"><h2>&#x1F9E2; AI &#x5B9E;&#x9A8C;&#x5BA4;</h2><p>&#x63A2;&#x7D22;AI&#x5DE5;&#x5177;&#xFF1A;&#x6A21;&#x578B;&#x8FD0;&#x884C;&#x3001;&#x81EA;&#x52A8;&#x5316;&#x6D41;&#x7A0B;&#x3001;AI&#x5E94;&#x7528;&#x5F00;&#x53D1;&#x3002;</p></div>
-    <div class="card"><h2>&#x1F3B6; &#x97F3;&#x9891;</h2><p>&#x63A2;&#x7D22;&#x97F3;&#x4E50;&#x4E0E;&#x58F0;&#x97F3;&#xFF1A;FLAC&#x3001;&#x97F3;&#x9891;&#x8BBE;&#x5907;&#x3001;&#x865A;&#x62DF;&#x6B4C;&#x624B;&#x8C03;&#x6559;&#x3002;</p></div>
-  </div>
-</section>
-<section class="hidden">
-  <h1 class="section-title">&#x6280;&#x80FD;</h1>
-  <div class="skill"><div class="skill-name"><span>HTML / CSS / JavaScript</span><span>75%</span></div><div class="bar"><div class="progress" data-width="75"></div></div></div>
-  <div class="skill"><div class="skill-name"><span>Linux</span><span>65%</span></div><div class="bar"><div class="progress" data-width="65"></div></div></div>
-  <div class="skill"><div class="skill-name"><span>AI &#x63A2;&#x7D22;</span><span>70%</span></div><div class="bar"><div class="progress" data-width="70"></div></div></div>
-  <div class="skill"><div class="skill-name"><span>&#x8BA1;&#x7B97;&#x673A;&#x786C;&#x4EF6;</span><span>80%</span></div><div class="bar"><div class="progress" data-width="80"></div></div></div>
-</section>
-<section id="contact" class="hidden">
-  <h1 class="section-title">&#x8054;&#x7CFB;&#x65B9;&#x5F0F;</h1>
-  <div class="contact-grid">
-    <a class="contact-btn github" href="https://github.com/miku-kumi" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></a>
-    <a class="contact-btn x" href="https://x.com/lyou93523" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-    <a class="contact-btn gmail" href="mailto:qazwsxedcv158mikuumi@gmail.com"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.91 12 9.548l6.545-4.637 1.528-1.418C21.691 2.28 24 3.434 24 5.457z"/></svg></a>
-  </div>
-  <div class="contact-message">&#x6B22;&#x8FCE;&#x4E00;&#x8D77;&#x8BA8;&#x8BBA;&#xFF1A;Linux &middot; AI &middot; &#x97F3;&#x4E50; &middot; &#x8BA1;&#x7B97;&#x673A;&#x6280;&#x672F;</div>
-</section>
-<footer>
-  <span>&copy; 2026 mikuumi</span><br>
-  <span>&#x4E00;&#x4E2A;&#x7528;&#x597D;&#x5947;&#x5FC3;&#x642D;&#x5EFA;&#x7684;&#x5C0F;&#x5C0F;&#x6570;&#x5B57;&#x82B1;&#x56ED;</span>
-</footer>
-<script>
-document.addEventListener("DOMContentLoaded", () => { document.body.classList.add("loaded"); });
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((item) => {
-    if (item.isIntersecting) { item.target.classList.add("show"); item.target.querySelectorAll(".progress").forEach((bar) => { bar.style.width = bar.dataset.width + "%"; }); }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll(".hidden").forEach((el) => observer.observe(el));
-const glow = document.querySelector(".cursor-glow");
-document.addEventListener("mousemove", (e) => { glow.style.left = e.clientX - 175 + "px"; glow.style.top = e.clientY - 175 + "px"; });
-const canvas = document.getElementById("stars");
-const ctx = canvas.getContext("2d");
-let w = canvas.width = window.innerWidth;
-let h = canvas.height = window.innerHeight;
-const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-window.addEventListener("resize", () => {
-  if (window.innerWidth === w && window.innerHeight === h) return;
-  w = canvas.width = window.innerWidth;
-  h = canvas.height = window.innerHeight;
-});
-const stars = [];
-const STAR_COUNT = w < 768 ? 90 : 180;
-for (let i = 0; i < STAR_COUNT; i++) { stars.push({ x: Math.random() * w, y: Math.random() * h, size: Math.random() * 2 + 0.5, speed: Math.random() * 0.25 + 0.05, opacity: Math.random() * 0.8 + 0.2 }); }
-function drawStars() {
-  ctx.clearRect(0, 0, w, h);
-  stars.forEach((star) => { ctx.beginPath(); ctx.fillStyle = "rgba(110,231,255," + star.opacity + ")"; ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2); ctx.fill(); star.y -= star.speed; if (star.y < 0) { star.y = h; star.x = Math.random() * w; } });
-  if (!reduceMotion) requestAnimationFrame(drawStars);
-}
-drawStars();
-document.querySelectorAll("nav a[href^='#']").forEach((anchor) => {
-  anchor.addEventListener("click", (e) => { e.preventDefault(); const target = document.querySelector(anchor.getAttribute("href")); if (target) target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" }); });
-});
-</script>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="avatar-wrapper rise" style="--d:.05s">
+          <div class="avatar-ring"></div>
+          <img src="图像.png" alt="mikuumi 的头像" class="avatar-svg" width="140" height="140" fetchpriority="high" decoding="async">
+        </div>
+        <div class="hero-text">
+          <h1 class="rise" style="--d:.15s">mikuumi</h1>
+          <div class="hero-tags rise" style="--d:.25s">
+            <span class="hero-tag">科技</span>
+            <span class="hero-tag">AI</span>
+            <span class="hero-tag">音乐</span>
+            <span class="hero-tag">创作</span>
+          </div>
+          <p class="hero-desc rise" style="--d:.35s">一个喜欢折腾技术的 INTP 高中生,在代码、音乐和 AI 的数字世界里漫游。</p>
+          <a href="#about" class="btn-primary rise" style="--d:.45s">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+            探索我的世界
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="reveal">
+      <h2 class="section-title">关于我</h2>
+      <div class="about-grid">
+        <div class="about-bio">你好,我是 <b>mikuumi</b>.<br><br>一名沉迷于探索技术世界的高中生,偏爱理科思维。喜欢研究计算机底层原理、人工智能、Linux 系统、网页开发,以及各种有趣的新技术。相信技术不只是代码和工具,更是一种表达想法和创作作品的方式。这个网站就是我的数字自留地,记录学习、兴趣和方向。</div>
+        <div class="about-info">
+          <div class="about-badge"><span class="badge-icon" aria-hidden="true">🎓</span><span class="badge-label">身份</span><span class="badge-value">高中生</span></div>
+          <div class="about-badge"><span class="badge-icon" aria-hidden="true">💼</span><span class="badge-label">方向</span><span class="badge-value">理科</span></div>
+          <div class="about-badge"><span class="badge-icon" aria-hidden="true">🧠</span><span class="badge-label">MBTI</span><span class="badge-value">INTP</span></div>
+          <div class="about-badge"><span class="badge-icon" aria-hidden="true">🎂</span><span class="badge-label">生日</span><span class="badge-value">2009.9.16</span></div>
+          <div class="about-badge"><span class="badge-icon" aria-hidden="true">♌</span><span class="badge-label">星座</span><span class="badge-value">处女座</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 兴趣 -->
+    <section id="interest" class="reveal">
+      <h2 class="section-title">兴趣</h2>
+      <div class="cards">
+        <div class="card"><h3>🎵 音乐</h3><p>Vocaloid、Synthesizer V 爱好者。喜欢研究声音表现、调音、音频设备与音乐制作。</p></div>
+        <div class="card"><h3>💻 技术</h3><p>Linux、Windows 优化、硬件、网络、服务器部署,喜欢折腾系统,理解技术背后的原理。</p></div>
+        <div class="card"><h3>🧠 AI</h3><p>关注AI发展:LLM、本地部署、自动化工具。希望未来创造属于自己的AI应用。</p></div>
+        <div class="card"><h3>🎮 游戏</h3><p>偏好剧情驱动游戏、独立游戏、Minecraft。更关注游戏带来的故事和体验。</p></div>
+      </div>
+    </section>
+
+    <!-- 学习方向 -->
+    <section id="learn" class="reveal">
+      <h2 class="section-title">学习方向</h2>
+      <div class="cards">
+        <div class="card"><h3>💬 Linux</h3><p>学习系统管理、软件部署、服务器搭建与环境配置。</p></div>
+        <div class="card"><h3>🌐 网页开发</h3><p>HTML、CSS、JavaScript,制作个人网站,探索前端设计与交互动画。</p></div>
+        <div class="card"><h3>🔌 硬件</h3><p>研究CPU、GPU、存储、系统性能优化,了解硬件底层运行机制。</p></div>
+      </div>
+    </section>
+
+    <!-- 项目 -->
+    <section id="project" class="reveal">
+      <h2 class="section-title">项目</h2>
+      <div class="cards">
+        <div class="card"><h3>🌐 个人网站</h3><p>设计开发个人主页,研究网页动画、视觉设计、响应式布局。</p></div>
+        <div class="card"><h3>★ 服务器</h3><p>搭建个人服务:Cloudflare Tunnel、文件服务、机器人服务。</p></div>
+        <div class="card"><h3>🧠 AI 实验室</h3><p>探索AI工具:模型运行、自动化流程、AI应用开发。</p></div>
+        <div class="card"><h3>🎶 音频</h3><p>探索音乐与声音:FLAC、音频设备、虚拟歌手调教。</p></div>
+      </div>
+    </section>
+
+    <!-- 技能 -->
+    <section id="skills" class="reveal">
+      <h2 class="section-title">技能</h2>
+      <div class="skill"><div class="skill-name"><span>HTML / CSS / JavaScript</span><span>75%</span></div><div class="bar"><div class="progress" data-width="75"></div></div></div>
+      <div class="skill"><div class="skill-name"><span>Linux</span><span>65%</span></div><div class="bar"><div class="progress" data-width="65"></div></div></div>
+      <div class="skill"><div class="skill-name"><span>AI 探索</span><span>70%</span></div><div class="bar"><div class="progress" data-width="70"></div></div></div>
+      <div class="skill"><div class="skill-name"><span>计算机硬件</span><span>80%</span></div><div class="bar"><div class="progress" data-width="80"></div></div></div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section id="contact" class="reveal">
+      <h2 class="section-title">联系方式</h2>
+      <div class="contact-grid">
+        <a class="contact-btn github" href="https://github.com/miku-kumi" target="_blank" rel="noopener noreferrer" aria-label="GitHub(miku-kumi)">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a class="contact-btn x" href="https://x.com/lyou93523" target="_blank" rel="noopener noreferrer" aria-label="X(Twitter)(@lyou93523)">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a class="contact-btn gmail" href="mailto:qazwsxedcv158mikuumi@gmail.com" aria-label="发送邮件(qazwsxedcv158mikuumi@gmail.com)">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.91 12 9.548l6.545-4.637 1.528-1.418C21.691 2.28 24 3.434 24 5.457z"/></svg>
+        </a>
+      </div>
+      <div class="contact-message">欢迎一起讨论:Linux · AI · 音乐 · 计算机技术</div>
+    </section>
+  </main>
+
+  <footer>
+    <span>&copy; 2026 mikuumi</span><br>
+    <span>一个用好奇心搭建的小小数字花园</span>
+  </footer>
 </body>
 </html>

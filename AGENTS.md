@@ -10,11 +10,14 @@
 
 | 文件 | 作用 | 硬性注意 |
 |---|---|---|
-| `index.html` | 整个网站:HTML + CSS + JS 单文件(约 220 行),样式全部内联在 `<style>`,脚本全部内联在 `<script>` | 唯一的页面文件 |
+| `index.html` | 页面结构(语义化 HTML,h1×1 / h2 区块标题 / h3 卡片标题) | 只放结构与内容;样式脚本引用下方文件 |
+| `css/style.css` | 全部样式;`:root` 是 Design Tokens(颜色/圆角/缓动) | 改颜色/圆角/动效曲线先改 Token,不要写裸值 |
+| `js/main.js` | 全部脚本:IIFE 模块(星空 / 滚动显现 / 导航状态 / 光晕),无全局污染 | 模块间独立容错;保持零依赖 |
+| `assets/favicon.svg` | 站点图标(品牌双色星形) | — |
 | `CNAME` | 自定义域名 `a.gugugagaea.de5.net` | **永远不要删除或改名**,否则线上域名立即失效 |
-| `图像.png` | 头像,Hero 区以圆形裁切展示(`object-fit: cover`) | 中文文件名;重命名必须同步改 `index.html` 里的引用 |
+| `图像.png` | 头像,Hero 区以圆形裁切展示(`object-fit: cover`) | 中文文件名;`og:image` 用百分号编码绝对地址;重命名必须同步改 `index.html` |
 
-**技术栈**:纯 HTML / CSS / Vanilla JavaScript。零依赖、零构建、零框架。
+**技术栈**:纯 HTML / CSS / Vanilla JavaScript。零依赖、零构建、零框架;CSS 以 Token 组织,JS 以 IIFE 模块组织。
 **部署方式**:`main` 分支 push 后 GitHub Pages 自动发布——**push 前必须在本地验证过**。
 
 **页面结构**(自上而下):Hero(头像 + 渐变标题 + 标签 + CTA 按钮)→ 关于我(bio 卡片 + 信息徽章)→ 兴趣(4 卡片)→ 学习方向(3 卡片)→ 项目(4 卡片)→ 技能(进度条)→ 联系方式(GitHub / X / Gmail 圆形按钮)→ footer。
@@ -25,16 +28,18 @@
 - 鼠标光晕跟随(`.cursor-glow`,仅桌面;触屏设备通过 `@media (hover: none)` 隐藏)
 - 尊重系统"减少动态效果"设置(`prefers-reduced-motion`:停用浮动/光环动画、星空静态呈现、锚点瞬时定位)
 - 玻璃拟态卡片:白色低透明度底 + `backdrop-filter: blur`
-- 滚动显现动画:IntersectionObserver 把 `.hidden` 切换成 `.show`,同时触发技能进度条填充
+- 滚动显现动画:IntersectionObserver 把 `.reveal` 切换成 `.visible`,同时触发技能进度条填充
 - 头像:旋转渐变光环 + 上下浮动动画
+- 进入动画 `.rise`(纯 CSS keyframes + `--d` 延迟变量);导航状态类 `.scrolled`(滚离顶部加深底色)与 `.active`(当前分区高亮),由 js/main.js 维护
 - 响应式断点:`768px` 和 `480px` 两档
 
 **当前实现的已知细节**(这是现状备忘,不是待修清单;未经用户要求不要顺手重构):
-- 导航只有 4 个锚点(关于 / 兴趣 / 项目 / 联系);"学习方向""技能"两个 section 没有 id、不在导航里
+- 导航只有 4 个锚点(关于 / 兴趣 / 项目 / 联系);"学习方向"(#learn)"技能"(#skills)有 id 但刻意不进导航,保持简洁
 - Hero 高度用 `100svh`(带 `100vh` 回退)避免手机地址栏抖动;锚点滚动偏移由 `html` 上的 `scroll-padding-top` 控制(桌面 76px / 移动端 68px),改导航高度时记得同步
 - 联系按钮是原生 `<a>`(外链带 `target="_blank" rel="noopener noreferrer"`,Gmail 为 `mailto:`),没有 JS 拦截——不要加回去
-- mousemove 光晕直接改 `style.left/top`,未做 rAF 合帧(仅桌面存在)
-- 尚无 meta description / favicon / Open Graph 标签(用户提出时再补)
+- heading 层级:h1 仅 Hero 一个;新增内容延续 h2/h3 层级
+- 已有完整 meta:description / theme-color / canonical / Open Graph / SVG favicon
+- 无 JS 时页面仍完整可读(进入动画是纯 CSS;.reveal 有 noscript 兜底),不要引入依赖 JS 的首屏显隐
 
 ---
 
