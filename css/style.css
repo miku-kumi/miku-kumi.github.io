@@ -66,7 +66,7 @@ img { max-width: 100%; }
   background: rgba(5, 5, 16, .40);
   backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border-soft);
-  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
   z-index: 20;
 }
 .nav.scrolled { background: rgba(5, 5, 16, .74); border-bottom-color: var(--border); }
@@ -80,7 +80,7 @@ img { max-width: 100%; }
 .nav-links a {
   color: var(--text-muted); text-decoration: none;
   padding: 6px 14px; font-size: 14px; border-radius: 20px;
-  transition: color var(--dur-fast) ease, background var(--dur-fast) ease;
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
 }
 .nav-links a:hover,
 .nav-links a.active { color: var(--primary); background: var(--surface-hover); }
@@ -121,7 +121,7 @@ img { max-width: 100%; }
   background: var(--surface-hover);
   border: 1px solid var(--border-accent);
   color: var(--text-muted); font-size: 13px;
-  transition: color var(--dur-fast) ease, background var(--dur-fast) ease, border-color var(--dur-fast) ease;
+  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
 .hero-tag:hover { background: rgba(110, 231, 255, .15); border-color: rgba(110, 231, 255, .3); color: var(--primary); }
 .hero-desc { margin-top: 14px; color: var(--text-muted); font-size: 15px; line-height: 1.7; max-width: 480px; }
@@ -132,7 +132,7 @@ img { max-width: 100%; }
   background: var(--grad-brand);
   color: #fff; text-decoration: none; font-weight: 600; font-size: 14px;
   box-shadow: 0 0 20px var(--glow); /* Glow 只给关键 CTA */
-  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) ease;
+  transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 30px var(--glow-strong); }
 .btn-primary svg { width: 15px; height: 15px; }
@@ -155,7 +155,7 @@ section { padding: 56px 8%; }
   background: var(--grad-brand); border-radius: 4px;
 }
 /* 滚动显现(js/main.js 的 IntersectionObserver 切换 .visible) */
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity var(--dur-slow) var(--ease-soft), transform var(--dur-slow) var(--ease-soft); }
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out); } /* 与 .rise 同曲线,进入语言统一 */
 .reveal.visible { opacity: 1; transform: none; }
 
 /* ---------- 卡片 ---------- */
@@ -170,7 +170,7 @@ section { padding: 56px 8%; }
   border-radius: var(--radius-m);
   padding: 22px;
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  transition: transform .35s var(--ease-soft), border-color .35s ease, box-shadow .35s ease;
+  transition: transform .35s var(--ease-out), border-color .35s var(--ease-out), box-shadow .35s var(--ease-out);
 }
 .card:hover { transform: translateY(-6px); border-color: rgba(110, 231, 255, .25); box-shadow: 0 16px 40px rgba(110, 231, 255, .12); }
 .card h3 { color: var(--primary); margin-bottom: 12px; font-size: 17px; }
@@ -194,7 +194,7 @@ section { padding: 56px 8%; }
   background: rgba(255, 255, 255, .05);
   border: 1px solid var(--border-soft);
   font-size: 14px; color: var(--text-body);
-  transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
+  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
 .about-badge:hover { background: var(--surface-hover); border-color: var(--border-accent); transform: translateY(-2px); }
 .badge-icon { font-size: 18px; }
@@ -209,6 +209,7 @@ section { padding: 56px 8%; }
   height: 100%; width: 0; border-radius: 10px;
   background: var(--grad-brand);
   transition: width 1.2s var(--ease-soft);
+  transition-delay: .25s; /* 区块先浮现,进度条后生长 —— 时序分层 */
 }
 
 /* ---------- 联系方式 ---------- */
@@ -220,7 +221,7 @@ section { padding: 56px 8%; }
   border: 1px solid var(--border);
   color: #fff; text-decoration: none;
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  transition: transform .35s var(--ease-soft), border-color .35s ease, box-shadow .35s ease;
+  transition: transform .35s var(--ease-out), border-color .35s var(--ease-out), box-shadow .35s var(--ease-out);
 }
 .contact-btn svg { width: 26px; height: 26px; fill: currentColor; transition: transform .35s var(--ease-out); }
 .contact-btn:hover svg { transform: scale(1.15); }

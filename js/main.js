@@ -90,7 +90,7 @@
         });
         io.unobserve(en.target); // 显现一次即可,停止观察
       }
-    }, { threshold: 0.12 });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0 }); // 进入视口下沿前 10% 即触发,滚动节奏更连贯
     els.forEach(el => io.observe(el));
   }
 
