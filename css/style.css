@@ -177,7 +177,7 @@ section { padding: 56px 8%; }
 .card p { line-height: 1.8; color: var(--text-body); font-size: 14px; }
 
 /* ---------- 关于我 ---------- */
-.about-grid { display: flex; flex-direction: column; gap: 24px; max-width: 800px; margin: 0 auto; }
+.about-grid { display: flex; flex-direction: column; gap: 24px; max-width: 720px; margin: 0 auto; } /* 720px ≈ 48 字/行,中文舒适阅读行宽 */
 .about-bio {
   background: var(--surface);
   border: 1px solid var(--border);
