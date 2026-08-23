@@ -104,7 +104,7 @@ a { -webkit-tap-highlight-color: transparent; } /* 自定义交互已有完整�
   animation: ring-spin 4s linear infinite; /* 无限旋转,linear 属于例外许可 */
   z-index: -1;
 }
-.avatar-ring::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--bg); }
+.avatar-ring::after { content: ""; position: absolute; top: 4px; right: 4px; bottom: 4px; left: 4px; border-radius: 50%; background: var(--bg); }
 .avatar-svg {
   width: 100%; height: 100%; border-radius: 50%;
   display: block; position: relative; z-index: 1;
