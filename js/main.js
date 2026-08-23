@@ -120,20 +120,24 @@
       const id = (a.hash || "").slice(1);
       if (id && document.getElementById(id)) byId[id] = a;
     });
+    const clearActive = () => links.forEach(l => {
+      l.classList.remove("active");
+      l.removeAttribute("aria-current");
+    });
     const io = new IntersectionObserver(entries => {
       entries.forEach(en => {
         if (!en.isIntersecting) return;
+        if (en.target.id === "hero") { clearActive(); return; } // 回到 Hero,清掉残留高亮
         const link = byId[en.target.id];
         if (!link) return;
-        links.forEach(l => {
-          l.classList.remove("active");
-          l.removeAttribute("aria-current");
-        });
+        clearActive();
         link.classList.add("active");
         link.setAttribute("aria-current", "true");
       });
     }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
     Object.keys(byId).forEach(id => io.observe(document.getElementById(id)));
+    const heroSec = document.getElementById("hero");
+    if (heroSec) io.observe(heroSec);
   }
 
   /* ---------- 光标光晕(仅精确指针设备) ---------- */
