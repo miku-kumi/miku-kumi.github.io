@@ -7,6 +7,7 @@
 
 /* ---------- Design Tokens ---------- */
 :root {
+  color-scheme: dark; /* 滚动条等原生控件跟随深色 */
   /* 色彩 */
   --bg: #050510;
   --surface: rgba(255, 255, 255, .06);
@@ -45,6 +46,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 img { max-width: 100%; }
+::selection { background: rgba(110, 231, 255, .28); color: var(--text); } /* 选区用品牌青 */
 a { -webkit-tap-highlight-color: transparent; } /* 自定义交互已有完整状态反馈,压掉系统灰块 */
 :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; } /* 不改 border-radius,避免聚焦时圆角跳变 */
 

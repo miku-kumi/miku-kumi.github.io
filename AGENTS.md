@@ -38,7 +38,8 @@
 - Hero 高度用 `100svh`(带 `100vh` 回退)避免手机地址栏抖动;锚点滚动偏移由 `html` 上的 `scroll-padding-top` 控制(桌面 76px / 移动端 68px),改导航高度时记得同步
 - 联系按钮是原生 `<a>`(外链带 `target="_blank" rel="noopener noreferrer"`,Gmail 为 `mailto:`),没有 JS 拦截——不要加回去
 - heading 层级:h1 仅 Hero 一个;新增内容延续 h2/h3 层级
-- 已有完整 meta:description / theme-color / canonical / Open Graph / SVG favicon
+- 已有完整 meta:description / theme-color / color-scheme(dark) / canonical / Open Graph / SVG favicon;文字选区为品牌青
+- 导航 active 态同时切换 `.active` 类与 `aria-current="true"`,两者必须同步改
 - 无 JS 时页面仍完整可读(进入动画是纯 CSS;.reveal 有 noscript 兜底),不要引入依赖 JS 的首屏显隐
 
 ---
