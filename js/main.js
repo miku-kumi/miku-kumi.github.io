@@ -34,17 +34,23 @@
 
     // 窄屏减量,兼顾移动端性能
     const COUNT = vw < 768 ? 90 : 180;
-    // 大部分星点为青色,少量紫色,呼应品牌双色
-    const stars = Array.from({ length: COUNT }, () => ({
-      x: rand(0, vw),
-      y: rand(0, vh),
-      r: rand(0.5, 2.4),
-      v: rand(0.05, 0.3),
-      o: rand(0.25, 0.95),
-      rgb: Math.random() < 0.82 ? "110,231,255" : "192,132,252",
-      phase: rand(0, Math.PI * 2),
-      twinkle: rand(0.4, 1.2)
-    }));
+    // 双层景深:远景(70%)小而慢且暗,近景(30%)大而快且亮 —— 视差产生真实纵深
+    const depthLayer = () => Math.random() < 0.7
+      ? { r: rand(0.4, 1.0), v: rand(0.03, 0.08), o: rand(0.2, 0.5) }
+      : { r: rand(1.2, 2.2), v: rand(0.12, 0.25), o: rand(0.5, 0.95) };
+    const stars = Array.from({ length: COUNT }, () => {
+      const d = depthLayer();
+      return {
+        x: rand(0, vw),
+        y: rand(0, vh),
+        r: d.r,
+        v: d.v,
+        o: d.o,
+        rgb: Math.random() < 0.82 ? "110,231,255" : "192,132,252",
+        phase: rand(0, Math.PI * 2),
+        twinkle: rand(0.4, 1.2)
+      };
+    });
 
     function draw(t) {
       ctx.clearRect(0, 0, vw, vh);

@@ -121,9 +121,7 @@ img { max-width: 100%; }
   background: var(--surface-hover);
   border: 1px solid var(--border-accent);
   color: var(--text-muted); font-size: 13px;
-  transition: color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
-}
-.hero-tag:hover { background: rgba(110, 231, 255, .15); border-color: rgba(110, 231, 255, .3); color: var(--primary); }
+} /* 纯展示标签,无 hover 态 —— 不假装可点击 */
 .hero-desc { margin-top: 14px; color: var(--text-muted); font-size: 15px; line-height: 1.8; max-width: 480px; }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
@@ -135,6 +133,7 @@ img { max-width: 100%; }
   transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 30px var(--glow-strong); }
+.btn-primary:active { transform: translateY(0); box-shadow: 0 0 14px var(--glow); }
 .btn-primary svg { width: 15px; height: 15px; }
 
 /* 进入动画:纯 CSS,不依赖 JS(禁 JS 也能完整显示) */
@@ -194,9 +193,7 @@ section { padding: 56px 8%; }
   background: rgba(255, 255, 255, .05);
   border: 1px solid var(--border-soft);
   font-size: 14px; color: var(--text-body);
-  transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
-}
-.about-badge:hover { background: var(--surface-hover); border-color: var(--border-accent); transform: translateY(-2px); }
+} /* 纯信息徽章,无 hover 态 */
 .badge-icon { font-size: 18px; }
 .badge-label { color: var(--text-muted); font-size: 12px; }
 .badge-value { font-weight: 600; color: var(--primary); }
@@ -228,6 +225,7 @@ section { padding: 56px 8%; }
 .contact-btn.github:hover { border-color: rgba(255, 255, 255, .3); transform: translateY(-4px); box-shadow: 0 10px 24px rgba(255, 255, 255, .08); }
 .contact-btn.x:hover { border-color: rgba(110, 231, 255, .35); transform: translateY(-4px); box-shadow: 0 10px 24px rgba(110, 231, 255, .10); }
 .contact-btn.gmail:hover { border-color: rgba(234, 67, 53, .35); transform: translateY(-4px); box-shadow: 0 10px 24px rgba(234, 67, 53, .10); }
+.contact-btn:active { transform: translateY(-1px) scale(.97); }
 .contact-message { text-align: center; margin-top: 28px; color: var(--text-muted); font-size: 14px; line-height: 1.8; }
 
 /* ---------- 页脚 ---------- */
