@@ -51,7 +51,7 @@ a { -webkit-tap-highlight-color: transparent; } /* 自定义交互已有完整�
 :focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; } /* 不改 border-radius,避免聚焦时圆角跳变 */
 
 /* ---------- 背景 ---------- */
-#stars { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -3; }
+#stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; } /* 显式偏移,inset 需 Safari 14.5+ */
 .cursor-glow {
   position: fixed; top: 0; left: 0;
   width: 350px; height: 350px; border-radius: 50%;
@@ -74,7 +74,8 @@ a { -webkit-tap-highlight-color: transparent; } /* 自定义交互已有完整�
 }
 .nav.scrolled { background: rgba(5, 5, 16, .74); border-bottom-color: var(--border); }
 .logo {
-  font-size: 20px; font-weight: 700; letter-spacing: -.5px; /* 与 h1 同词同字距,品牌一致 */
+  display: inline-block; font-size: 20px; font-weight: 700; letter-spacing: -.5px;
+  text-decoration: none; cursor: pointer; /* 与 h1 同词同字距,品牌一致 */
   background: var(--grad-brand);
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -97,7 +98,7 @@ a { -webkit-tap-highlight-color: transparent; } /* 自定义交互已有完整�
 .hero-inner { display: flex; align-items: center; gap: 40px; max-width: 900px; width: 100%; }
 .avatar-wrapper { position: relative; flex-shrink: 0; width: 140px; height: 140px; }
 .avatar-ring {
-  position: absolute; inset: -6px; border-radius: 50%;
+  position: absolute; top: -6px; right: -6px; bottom: -6px; left: -6px; border-radius: 50%;
   background: linear-gradient(135deg, var(--primary), var(--secondary), var(--primary));
   background-size: 300% 300%;
   animation: ring-spin 4s linear infinite; /* 无限旋转,linear 属于例外许可 */

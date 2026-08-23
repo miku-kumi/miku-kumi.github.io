@@ -144,6 +144,7 @@
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
     let tx = -500, ty = -500, x = tx, y = ty, raf = 0;
+    const HALF = (glow.offsetWidth || 350) / 2; // 尺寸以 CSS 为准,不硬编码
     const step = () => {
       raf = 0;
       x += (tx - x) * 0.18; // 轻微插值,让光晕有拖尾质感
@@ -152,8 +153,8 @@
       if (Math.abs(tx - x) > 0.2 || Math.abs(ty - y) > 0.2) raf = requestAnimationFrame(step);
     };
     window.addEventListener("mousemove", e => {
-      tx = e.clientX - 175;
-      ty = e.clientY - 175;
+      tx = e.clientX - HALF;
+      ty = e.clientY - HALF;
       if (!raf) raf = requestAnimationFrame(step); // 合帧,避免高频布局写入
     }, { passive: true });
   }
