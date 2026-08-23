@@ -99,8 +99,9 @@
     const nav = document.querySelector(".nav");
     if (!nav || !("IntersectionObserver" in window)) return;
 
-    // 滚离页面顶部后加深导航底色
+    // 滚离页面顶部后加深导航底色(1px 哨兵元素,避免 0 高度元素的 IO 边界歧义)
     const sentinel = document.createElement("div");
+    sentinel.style.cssText = "position:absolute;top:0;left:0;width:1px;height:1px;pointer-events:none;";
     document.body.prepend(sentinel);
     new IntersectionObserver(([en]) => {
       nav.classList.toggle("scrolled", !en.isIntersecting);

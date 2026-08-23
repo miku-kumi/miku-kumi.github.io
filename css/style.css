@@ -13,6 +13,7 @@
   --surface-hover: rgba(110, 231, 255, .08);
   --border-soft: rgba(255, 255, 255, .06);
   --border: rgba(255, 255, 255, .10);
+  --border-accent: rgba(110, 231, 255, .18);
   --primary: #6ee7ff;
   --secondary: #c084fc;
   --text: #ffffff;
@@ -35,7 +36,7 @@
 
 /* ---------- Base ---------- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; overflow-x: hidden; }
 body {
   background: var(--bg);
   color: var(--text);
@@ -118,7 +119,7 @@ img { max-width: 100%; }
 .hero-tag {
   padding: 4px 14px; border-radius: 20px;
   background: var(--surface-hover);
-  border: 1px solid rgba(110, 231, 255, .15);
+  border: 1px solid var(--border-accent);
   color: var(--text-muted); font-size: 13px;
   transition: color var(--dur-fast) ease, background var(--dur-fast) ease, border-color var(--dur-fast) ease;
 }
@@ -195,7 +196,7 @@ section { padding: 56px 8%; }
   font-size: 14px; color: var(--text-body);
   transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
 }
-.about-badge:hover { background: var(--surface-hover); border-color: rgba(110, 231, 255, .2); transform: translateY(-2px); }
+.about-badge:hover { background: var(--surface-hover); border-color: var(--border-accent); transform: translateY(-2px); }
 .badge-icon { font-size: 18px; }
 .badge-label { color: var(--text-muted); font-size: 12px; }
 .badge-value { font-weight: 600; color: var(--primary); }
